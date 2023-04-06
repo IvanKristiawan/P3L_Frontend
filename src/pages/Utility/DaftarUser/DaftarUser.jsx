@@ -31,6 +31,7 @@ const DaftarUser = () => {
   const [isFetchError, setIsFetchError] = useState(false);
   const [username, setUsername] = useState("");
   const [tipeUser, setTipeUser] = useState("");
+  const [deposit, setDeposit] = useState("");
   const [grouping, setGrouping] = useState("SEMUA");
 
   // Akses Master
@@ -167,6 +168,7 @@ const DaftarUser = () => {
       });
       setUsername(response.data.username);
       setTipeUser(response.data.tipeUser);
+      setDeposit(response.data.deposit);
 
       // Akses Master
       setBookingGym(response.data.akses.bookingGym);
@@ -294,6 +296,24 @@ const DaftarUser = () => {
                 </Form.Group>
               </Col>
             </Row>
+            {tipeUser === "MEMBER" && (
+              <Row>
+                <Col sm={6}>
+                  <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formPlaintextPassword"
+                  >
+                    <Form.Label column sm="3" style={textRight}>
+                      Deposit:
+                    </Form.Label>
+                    <Col sm="9">
+                      <Form.Control value={deposit} disabled readOnly />
+                    </Col>
+                  </Form.Group>
+                </Col>
+              </Row>
+            )}
           </Form>
           {user.tipeUser !== "ADMIN" && (
             <Container style={{ marginTop: 30 }}>

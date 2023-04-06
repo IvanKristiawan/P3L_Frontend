@@ -17,3 +17,6 @@ export { default as UbahJadwalGym } from "./Master/JadwalGym/UbahJadwalGym";
 // Aktivasi
 export { default as TampilAktivasi } from "./Utility/Aktivasi/TampilAktivasi";
 export { default as TambahAktivasi } from "./Utility/Aktivasi/TambahAktivasi";
+// Deposit
+export { default as TampilDeposit } from "./Utility/Deposit/TampilDeposit";
+export { default as TambahDeposit } from "./Utility/Deposit/TambahDeposit";

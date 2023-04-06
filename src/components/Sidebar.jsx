@@ -114,6 +114,11 @@ const Sidebar = ({
                 Aktivasi <NavLink to="/aktivasi" />
               </MenuItem>
             )}
+            {user.akses.deposit === true && (
+              <MenuItem>
+                Deposit <NavLink to="/deposit" />
+              </MenuItem>
+            )}
           </SubMenu>
         </Menu>
       </SidebarContent>

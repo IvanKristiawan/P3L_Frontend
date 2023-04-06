@@ -19,7 +19,9 @@ import {
   TambahJadwalGym,
   UbahJadwalGym,
   TampilAktivasi,
-  TambahAktivasi
+  TambahAktivasi,
+  TampilDeposit,
+  TambahDeposit
 } from "./pages/index";
 
 const App = () => {
@@ -80,6 +82,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.aktivasi) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const DEPOSITRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.deposit) {
       return children;
     }
 
@@ -248,20 +260,37 @@ const App = () => {
               </AKTIVASIRoute>
             }
           />
-          {/* <Route
-            path="/aktivasi/:id/edit"
-            element={
-              <AKTIVASIRoute>
-                <UbahJadwalGym />
-              </AKTIVASIRoute>
-            }
-          /> */}
           <Route
             path="/aktivasi/tambahAktivasi"
             element={
               <AKTIVASIRoute>
                 <TambahAktivasi />
               </AKTIVASIRoute>
+            }
+          />
+          {/*  Deposit */}
+          <Route
+            path="/deposit"
+            element={
+              <DEPOSITRoute>
+                <TampilDeposit />
+              </DEPOSITRoute>
+            }
+          />
+          <Route
+            path="/deposit/:id"
+            element={
+              <DEPOSITRoute>
+                <TampilDeposit />
+              </DEPOSITRoute>
+            }
+          />
+          <Route
+            path="/deposit/tambahDeposit"
+            element={
+              <DEPOSITRoute>
+                <TambahDeposit />
+              </DEPOSITRoute>
             }
           />
         </Routes>

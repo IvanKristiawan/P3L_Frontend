@@ -321,3 +321,70 @@ export function ShowTableAktivasi({ currentPosts, searchTerm }) {
     </TableContainer>
   );
 }
+
+export function ShowTableDeposit({ currentPosts, searchTerm }) {
+  let navigate = useNavigate();
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table aria-label="simple table">
+        <TableHead className={classes.root}>
+          <TableRow>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Kode
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Jumlah
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Member</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPosts
+            .filter((val) => {
+              if (searchTerm === "") {
+                return val;
+              } else if (
+                val.noDeposit
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.jumlahDeposit
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.user.username
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase())
+              ) {
+                return val;
+              }
+            })
+            .map((user, index) => (
+              <TableRow
+                key={user.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { bgcolor: Colors.grey300 },
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  navigate(`/deposit/${user.id}`);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.noDeposit}
+                </TableCell>
+                <TableCell>{user.jumlahDeposit.toLocaleString()}</TableCell>
+                <TableCell>{user.user.username}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
