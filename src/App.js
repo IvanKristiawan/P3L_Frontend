@@ -23,7 +23,9 @@ import {
   TampilDeposit,
   TambahDeposit,
   TampilBookingGym,
-  TambahBookingGym
+  TambahBookingGym,
+  TampilBookingKelas,
+  TambahBookingKelas
 } from "./pages/index";
 
 const App = () => {
@@ -84,6 +86,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.bookingGym) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const BOOKINGKELASRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.bookingKelas) {
       return children;
     }
 
@@ -328,6 +340,31 @@ const App = () => {
               <BOOKINGGYMRoute>
                 <TambahBookingGym />
               </BOOKINGGYMRoute>
+            }
+          />
+          {/*  Booking Kelas */}
+          <Route
+            path="/bookingKelas"
+            element={
+              <BOOKINGKELASRoute>
+                <TampilBookingKelas />
+              </BOOKINGKELASRoute>
+            }
+          />
+          <Route
+            path="/bookingKelas/:id"
+            element={
+              <BOOKINGKELASRoute>
+                <TampilBookingKelas />
+              </BOOKINGKELASRoute>
+            }
+          />
+          <Route
+            path="/bookingKelas/tambahBookingKelas"
+            element={
+              <BOOKINGKELASRoute>
+                <TambahBookingKelas />
+              </BOOKINGKELASRoute>
             }
           />
         </Routes>

@@ -472,7 +472,7 @@ export function ShowTableBookingGym({ currentPosts, searchTerm }) {
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase()) ||
                 val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
-                val.jadwalGym.harga == searchTerm
+                val.jadwalgym.harga == searchTerm
               ) {
                 return val;
               }
@@ -498,6 +498,109 @@ export function ShowTableBookingGym({ currentPosts, searchTerm }) {
                 <TableCell>{user.user.username}</TableCell>
                 <TableCell>{user.absensi}</TableCell>
                 <TableCell>{user.jadwalgym.harga.toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
+export function ShowTableBookingKelas({ currentPosts, searchTerm }) {
+  let navigate = useNavigate();
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table aria-label="simple table">
+        <TableHead className={classes.root}>
+          <TableRow>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              No.
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Dari
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Sampai
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Tanggal
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Member
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Absensi
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Harga</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPosts
+            .filter((val) => {
+              if (searchTerm === "") {
+                return val;
+              } else if (
+                val.noBooking
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.jadwalinstruktur.dariJam
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.jadwalinstruktur.sampaiJam
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.user.username
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.jadwalinstruktur.harga == searchTerm
+              ) {
+                return val;
+              }
+            })
+            .map((user, index) => (
+              <TableRow
+                key={user.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { bgcolor: Colors.grey300 },
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  navigate(`/bookingKelas/${user.id}`);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.noBooking}
+                </TableCell>
+                <TableCell>{user.jadwalinstruktur.dariJam}</TableCell>
+                <TableCell>{user.jadwalinstruktur.sampaiJam}</TableCell>
+                <TableCell>{user.tanggal}</TableCell>
+                <TableCell>{user.user.username}</TableCell>
+                <TableCell>{user.absensi}</TableCell>
+                <TableCell>
+                  {user.jadwalinstruktur.harga.toLocaleString()}
+                </TableCell>
               </TableRow>
             ))}
         </TableBody>

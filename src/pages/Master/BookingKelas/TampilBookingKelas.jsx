@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { tempUrl, useStateContext } from "../../../contexts/ContextProvider";
-import { ShowTableBookingGym } from "../../../components/ShowTable";
+import { ShowTableBookingKelas } from "../../../components/ShowTable";
 import { FetchErrorHandling } from "../../../components/FetchErrorHandling";
 import {
   SearchBar,
@@ -14,7 +14,7 @@ import {
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { Box, Pagination } from "@mui/material";
 
-const TampilBookingGym = () => {
+const TampilBookingKelas = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -47,14 +47,16 @@ const TampilBookingGym = () => {
       return val;
     } else if (
       val.noBooking.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.jadwalgym.dariJam.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.jadwalgym.sampaiJam
+      val.jadwalinstruktur.dariJam
+        .toUpperCase()
+        .includes(searchTerm.toUpperCase()) ||
+      val.jadwalinstruktur.sampaiJam
         .toUpperCase()
         .includes(searchTerm.toUpperCase()) ||
       val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.user.username.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.jadwalgym.harga == searchTerm
+      val.jadwalinstruktur.harga == searchTerm
     ) {
       return val;
     }
@@ -70,14 +72,14 @@ const TampilBookingGym = () => {
   };
 
   useEffect(() => {
-    getBookingGyms();
-    id && getBookingGymById();
+    getBookingKelass();
+    id && getBookingKelasById();
   }, [id]);
 
-  const getBookingGyms = async () => {
+  const getBookingKelass = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${tempUrl}/bookingGyms`, {
+      const response = await axios.post(`${tempUrl}/bookingKelas`, {
         _id: user.id,
         token: user.token
       });
@@ -88,16 +90,16 @@ const TampilBookingGym = () => {
     setLoading(false);
   };
 
-  const getBookingGymById = async () => {
+  const getBookingKelasById = async () => {
     if (id) {
-      const response = await axios.post(`${tempUrl}/bookingGyms/${id}`, {
+      const response = await axios.post(`${tempUrl}/bookingKelas/${id}`, {
         _id: user.id,
         token: user.token
       });
       setNoBooking(response.data.noBooking);
-      setDariJam(response.data.jadwalgym.dariJam);
-      setSampaiJam(response.data.jadwalgym.sampaiJam);
-      let newTanggal = new Date(response.data.jadwalgym.tanggal);
+      setDariJam(response.data.jadwalinstruktur.dariJam);
+      setSampaiJam(response.data.jadwalinstruktur.sampaiJam);
+      let newTanggal = new Date(response.data.jadwalinstruktur.tanggal);
       let tempTanggal = `${newTanggal.getDate().toLocaleString("en-US", {
         minimumIntegerDigits: 2,
         useGrouping: false
@@ -106,10 +108,10 @@ const TampilBookingGym = () => {
         useGrouping: false
       })}-${newTanggal.getFullYear()}`;
       setTanggal(tempTanggal);
-      setTanggalDate(response.data.jadwalgym.tanggal);
+      setTanggalDate(response.data.jadwalinstruktur.tanggal);
       setMember(response.data.user.username);
       setAbsensi(response.data.absensi);
-      setHarga(response.data.jadwalgym.harga);
+      setHarga(response.data.jadwalinstruktur.harga);
 
       const aktivasiUser = await axios.post(`${tempUrl}/aktivasisByUser`, {
         userId: response.data.user.id,
@@ -126,18 +128,18 @@ const TampilBookingGym = () => {
     return result;
   }
 
-  const deleteBookingGym = async (id) => {
+  const deleteBookingKelas = async (id) => {
     setLoading(true);
     let tempToday = new Date();
     let ifAktif = new Date(masaAktif) > new Date();
     let lessThanHMin1 = new Date(tanggalDate) < subsDays(tempToday, 1);
     if (ifAktif && lessThanHMin1) {
       try {
-        await axios.post(`${tempUrl}/deleteBookingGym/${id}`, {
+        await axios.post(`${tempUrl}/deleteBookingKelas/${id}`, {
           _id: user.id,
           token: user.token
         });
-        getBookingGyms();
+        getBookingKelass();
         setDariJam("");
         setSampaiJam("");
         setTanggal("");
@@ -145,7 +147,7 @@ const TampilBookingGym = () => {
         setMember("");
         setAbsensi("");
         setHarga("");
-        navigate("/bookingGym");
+        navigate("/bookingKelas");
       } catch (error) {
         if (error.response.data.message.includes("foreign key")) {
           alert(`${member} tidak bisa dihapus karena sudah ada data!`);
@@ -172,14 +174,14 @@ const TampilBookingGym = () => {
   return (
     <Container>
       <h3>Master</h3>
-      <h5 style={{ fontWeight: 400 }}>Daftar Booking Gym</h5>
+      <h5 style={{ fontWeight: 400 }}>Daftar Booking Kelas</h5>
       <Box sx={buttonModifierContainer}>
         <ButtonModifier
           id={id}
           kode={id}
-          addLink={`/bookingGym/tambahBookingGym`}
+          addLink={`/bookingkelas/tambahBookingKelas`}
           editLink={null}
-          deleteUser={deleteBookingGym}
+          deleteUser={deleteBookingKelas}
           nameUser={member}
         />
       </Box>
@@ -315,7 +317,7 @@ const TampilBookingGym = () => {
         <SearchBar setSearchTerm={setSearchTerm} />
       </Box>
       <Box sx={tableContainer}>
-        <ShowTableBookingGym
+        <ShowTableBookingKelas
           currentPosts={currentPosts}
           searchTerm={searchTerm}
         />
@@ -333,7 +335,7 @@ const TampilBookingGym = () => {
   );
 };
 
-export default TampilBookingGym;
+export default TampilBookingKelas;
 
 const buttonModifierContainer = {
   mt: 4,

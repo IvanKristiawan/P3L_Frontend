@@ -17,6 +17,9 @@ export { default as UbahJadwalGym } from "./Master/JadwalGym/UbahJadwalGym";
 // Booking Gym Page
 export { default as TampilBookingGym } from "./Master/BookingGym/TampilBookingGym";
 export { default as TambahBookingGym } from "./Master/BookingGym/TambahBookingGym";
+// Booking Kelas Page
+export { default as TampilBookingKelas } from "./Master/BookingKelas/TampilBookingKelas";
+export { default as TambahBookingKelas } from "./Master/BookingKelas/TambahBookingKelas";
 // Aktivasi
 export { default as TampilAktivasi } from "./Utility/Aktivasi/TampilAktivasi";
 export { default as TambahAktivasi } from "./Utility/Aktivasi/TambahAktivasi";
