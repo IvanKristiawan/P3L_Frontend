@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -27,6 +27,7 @@ const TampilJadwalInstruktur = () => {
   const [tanggal, setTanggal] = useState("");
   const [jumlahMember, setJumlahMember] = useState("");
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
+  const [harga, setHarga] = useState("");
   const [userId, setUserId] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +50,8 @@ const TampilJadwalInstruktur = () => {
       val.sampaiJam.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.jumlahMember == searchTerm ||
-      val.jumlahMemberMax == searchTerm
+      val.jumlahMemberMax == searchTerm ||
+      val.harga == searchTerm
     ) {
       return val;
     }
@@ -103,6 +105,7 @@ const TampilJadwalInstruktur = () => {
       setTanggal(tempTanggal);
       setJumlahMember(response.data.jumlahMember);
       setJumlahMemberMax(response.data.jumlahMemberMax);
+      setHarga(response.data.harga);
       setUserId(response.data.user.username);
     }
   };
@@ -252,6 +255,26 @@ const TampilJadwalInstruktur = () => {
                   </Form.Label>
                   <Col sm="9">
                     <Form.Control value={jumlahMemberMax} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Harga :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      value={harga.toLocaleString()}
+                      disabled
+                      readOnly
+                    />
                   </Col>
                 </Form.Group>
               </Col>

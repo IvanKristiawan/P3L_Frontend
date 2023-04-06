@@ -117,7 +117,13 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
             >
               Jml.
             </TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Jml. Max</TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Jml. Max
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Harga</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -135,7 +141,8 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
                   .includes(searchTerm.toUpperCase()) ||
                 val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
                 val.jumlahMember == searchTerm ||
-                val.jumlahMemberMax == searchTerm
+                val.jumlahMemberMax == searchTerm ||
+                val.harga == searchTerm
               ) {
                 return val;
               }
@@ -160,6 +167,7 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
                 <TableCell>{user.tanggal}</TableCell>
                 <TableCell>{user.jumlahMember.toLocaleString()}</TableCell>
                 <TableCell>{user.jumlahMemberMax.toLocaleString()}</TableCell>
+                <TableCell>{user.harga.toLocaleString()}</TableCell>
               </TableRow>
             ))}
         </TableBody>
@@ -206,6 +214,12 @@ export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
             >
               Jml. Max
             </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Harga
+            </TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Libur</TableCell>
           </TableRow>
         </TableHead>
@@ -222,6 +236,7 @@ export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
                 val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
                 val.jumlahMember == searchTerm ||
                 val.jumlahMemberMax == searchTerm ||
+                val.harga == searchTerm ||
                 val.libur.toUpperCase().includes(searchTerm.toUpperCase())
               ) {
                 return val;
@@ -246,6 +261,7 @@ export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
                 <TableCell>{user.tanggal}</TableCell>
                 <TableCell>{user.jumlahMember.toLocaleString()}</TableCell>
                 <TableCell>{user.jumlahMemberMax.toLocaleString()}</TableCell>
+                <TableCell>{user.harga.toLocaleString()}</TableCell>
                 <TableCell>{user.libur}</TableCell>
               </TableRow>
             ))}

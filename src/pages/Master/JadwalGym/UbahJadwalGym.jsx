@@ -19,6 +19,7 @@ const UbahJadwalGym = () => {
   const [sampaiJam, setSampaiJam] = useState("");
   const [inputTanggal, setInputTanggal] = useState(new Date());
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
+  const [harga, setHarga] = useState("");
   const [libur, setLibur] = useState("");
 
   const [error, setError] = useState(false);
@@ -47,6 +48,7 @@ const UbahJadwalGym = () => {
     setDariJam(picked.data.dariJam);
     setSampaiJam(picked.data.sampaiJam);
     setJumlahMemberMax(picked.data.jumlahMemberMax);
+    setHarga(picked.data.harga);
     setLibur(picked.data.libur);
     setLoading(false);
   };
@@ -64,6 +66,7 @@ const UbahJadwalGym = () => {
           sampaiJam,
           tanggal: inputTanggal,
           jumlahMemberMax,
+          harga,
           libur,
           _id: user.id,
           token: user.token
@@ -179,6 +182,26 @@ const UbahJadwalGym = () => {
                       onChange={(e) =>
                         setJumlahMemberMax(e.target.value.toUpperCase())
                       }
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Harga :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      value={harga}
+                      onChange={(e) => setHarga(e.target.value.toUpperCase())}
                     />
                   </Col>
                 </Form.Group>

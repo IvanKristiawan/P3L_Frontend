@@ -26,6 +26,7 @@ const TampilJadwalGym = () => {
   const [tanggal, setTanggal] = useState("");
   const [jumlahMember, setJumlahMember] = useState("");
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
+  const [harga, setHarga] = useState("");
   const [libur, setLibur] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,6 +49,7 @@ const TampilJadwalGym = () => {
       val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.jumlahMember == searchTerm ||
       val.jumlahMemberMax == searchTerm ||
+      val.harga == searchTerm ||
       val.libur.toUpperCase().includes(searchTerm.toUpperCase())
     ) {
       return val;
@@ -101,6 +103,7 @@ const TampilJadwalGym = () => {
       setTanggal(tempTanggal);
       setJumlahMember(response.data.jumlahMember);
       setJumlahMemberMax(response.data.jumlahMemberMax);
+      setHarga(response.data.harga);
       setLibur(response.data.libur);
     }
   };
@@ -230,10 +233,30 @@ const TampilJadwalGym = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
-                    Jumlah Member Max :
+                    Jml. Member Max :
                   </Form.Label>
                   <Col sm="9">
                     <Form.Control value={jumlahMemberMax} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Harga :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      value={harga.toLocaleString()}
+                      disabled
+                      readOnly
+                    />
                   </Col>
                 </Form.Group>
               </Col>

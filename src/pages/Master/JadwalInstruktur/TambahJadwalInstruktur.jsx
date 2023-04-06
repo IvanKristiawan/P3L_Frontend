@@ -20,6 +20,7 @@ const TambahJadwalInstruktur = () => {
   const [sampaiJam, setSampaiJam] = useState("");
   const [tanggal, setTanggal] = useState(new Date());
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
+  const [harga, setHarga] = useState("");
   const [userId, setUserId] = useState("");
 
   const [instrukturs, setInstrukturs] = useState([]);
@@ -62,6 +63,7 @@ const TambahJadwalInstruktur = () => {
           sampaiJam,
           tanggal,
           jumlahMemberMax,
+          harga,
           userId,
           _id: user.id,
           token: user.token
@@ -203,6 +205,26 @@ const TambahJadwalInstruktur = () => {
                       onChange={(e) =>
                         setJumlahMemberMax(e.target.value.toUpperCase())
                       }
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Harga :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      value={harga}
+                      onChange={(e) => setHarga(e.target.value.toUpperCase())}
                     />
                   </Col>
                 </Form.Group>
