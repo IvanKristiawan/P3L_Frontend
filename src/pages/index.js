@@ -10,3 +10,7 @@ export { default as UbahUser } from "./Utility/DaftarUser/UbahUser";
 export { default as TampilJadwalInstruktur } from "./Master/JadwalInstruktur/TampilJadwalInstruktur";
 export { default as TambahJadwalInstruktur } from "./Master/JadwalInstruktur/TambahJadwalInstruktur";
 export { default as UbahJadwalInstruktur } from "./Master/JadwalInstruktur/UbahJadwalInstruktur";
+// Jadwal Gym Page
+export { default as TampilJadwalGym } from "./Master/JadwalGym/TampilJadwalGym";
+export { default as TambahJadwalGym } from "./Master/JadwalGym/TambahJadwalGym";
+export { default as UbahJadwalGym } from "./Master/JadwalGym/UbahJadwalGym";

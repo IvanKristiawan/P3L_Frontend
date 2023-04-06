@@ -14,7 +14,10 @@ import {
   UbahUser,
   TampilJadwalInstruktur,
   TambahJadwalInstruktur,
-  UbahJadwalInstruktur
+  UbahJadwalInstruktur,
+  TampilJadwalGym,
+  TambahJadwalGym,
+  UbahJadwalGym
 } from "./pages/index";
 
 const App = () => {
@@ -55,6 +58,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.jadwalInstruktur) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const JADWALGYMRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.jadwalGym) {
       return children;
     }
 
@@ -171,6 +184,39 @@ const App = () => {
               <JADWALINSTRUKTURRoute>
                 <TambahJadwalInstruktur />
               </JADWALINSTRUKTURRoute>
+            }
+          />
+          {/*  Jadwal Gym */}
+          <Route
+            path="/jadwalGym"
+            element={
+              <JADWALGYMRoute>
+                <TampilJadwalGym />
+              </JADWALGYMRoute>
+            }
+          />
+          <Route
+            path="/jadwalGym/:id"
+            element={
+              <JADWALGYMRoute>
+                <TampilJadwalGym />
+              </JADWALGYMRoute>
+            }
+          />
+          <Route
+            path="/jadwalGym/:id/edit"
+            element={
+              <JADWALGYMRoute>
+                <UbahJadwalGym />
+              </JADWALGYMRoute>
+            }
+          />
+          <Route
+            path="/jadwalGym/tambahJadwalGym"
+            element={
+              <JADWALGYMRoute>
+                <TambahJadwalGym />
+              </JADWALGYMRoute>
             }
           />
         </Routes>
