@@ -404,3 +404,104 @@ export function ShowTableDeposit({ currentPosts, searchTerm }) {
     </TableContainer>
   );
 }
+
+export function ShowTableBookingGym({ currentPosts, searchTerm }) {
+  let navigate = useNavigate();
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table aria-label="simple table">
+        <TableHead className={classes.root}>
+          <TableRow>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              No.
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Dari
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Sampai
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Tanggal
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Member
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Absensi
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Harga</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPosts
+            .filter((val) => {
+              if (searchTerm === "") {
+                return val;
+              } else if (
+                val.noBooking
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.jadwalgym.dariJam
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.jadwalgym.sampaiJam
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.user.username
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.jadwalGym.harga == searchTerm
+              ) {
+                return val;
+              }
+            })
+            .map((user, index) => (
+              <TableRow
+                key={user.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { bgcolor: Colors.grey300 },
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  navigate(`/bookingGym/${user.id}`);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.noBooking}
+                </TableCell>
+                <TableCell>{user.jadwalgym.dariJam}</TableCell>
+                <TableCell>{user.jadwalgym.sampaiJam}</TableCell>
+                <TableCell>{user.tanggal}</TableCell>
+                <TableCell>{user.user.username}</TableCell>
+                <TableCell>{user.absensi}</TableCell>
+                <TableCell>{user.jadwalgym.harga.toLocaleString()}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}

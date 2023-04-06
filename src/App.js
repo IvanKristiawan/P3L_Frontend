@@ -21,7 +21,9 @@ import {
   TampilAktivasi,
   TambahAktivasi,
   TampilDeposit,
-  TambahDeposit
+  TambahDeposit,
+  TampilBookingGym,
+  TambahBookingGym
 } from "./pages/index";
 
 const App = () => {
@@ -72,6 +74,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.jadwalGym) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const BOOKINGGYMRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.bookingGym) {
       return children;
     }
 
@@ -291,6 +303,31 @@ const App = () => {
               <DEPOSITRoute>
                 <TambahDeposit />
               </DEPOSITRoute>
+            }
+          />
+          {/*  Booking Gym */}
+          <Route
+            path="/bookingGym"
+            element={
+              <BOOKINGGYMRoute>
+                <TampilBookingGym />
+              </BOOKINGGYMRoute>
+            }
+          />
+          <Route
+            path="/bookingGym/:id"
+            element={
+              <BOOKINGGYMRoute>
+                <TampilBookingGym />
+              </BOOKINGGYMRoute>
+            }
+          />
+          <Route
+            path="/bookingGym/tambahBookingGym"
+            element={
+              <BOOKINGGYMRoute>
+                <TambahBookingGym />
+              </BOOKINGGYMRoute>
             }
           />
         </Routes>
