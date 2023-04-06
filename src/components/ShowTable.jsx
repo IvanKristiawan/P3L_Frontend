@@ -254,3 +254,70 @@ export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
     </TableContainer>
   );
 }
+
+export function ShowTableAktivasi({ currentPosts, searchTerm }) {
+  let navigate = useNavigate();
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table aria-label="simple table">
+        <TableHead className={classes.root}>
+          <TableRow>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Kode
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Masa Aktif
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Member</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPosts
+            .filter((val) => {
+              if (searchTerm === "") {
+                return val;
+              } else if (
+                val.kodeAktivasi
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.masaAktif
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.user.username
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase())
+              ) {
+                return val;
+              }
+            })
+            .map((user, index) => (
+              <TableRow
+                key={user.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { bgcolor: Colors.grey300 },
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  navigate(`/aktivasi/${user.id}`);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.kodeAktivasi}
+                </TableCell>
+                <TableCell>{user.masaAktif}</TableCell>
+                <TableCell>{user.user.username}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}

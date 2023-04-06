@@ -109,6 +109,11 @@ const Sidebar = ({
                 Daftar User <NavLink to="/daftarUser" />
               </MenuItem>
             )}
+            {user.akses.aktivasi === true && (
+              <MenuItem>
+                Aktivasi <NavLink to="/aktivasi" />
+              </MenuItem>
+            )}
           </SubMenu>
         </Menu>
       </SidebarContent>

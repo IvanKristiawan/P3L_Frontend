@@ -17,7 +17,9 @@ import {
   UbahJadwalInstruktur,
   TampilJadwalGym,
   TambahJadwalGym,
-  UbahJadwalGym
+  UbahJadwalGym,
+  TampilAktivasi,
+  TambahAktivasi
 } from "./pages/index";
 
 const App = () => {
@@ -68,6 +70,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.jadwalGym) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const AKTIVASIRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.aktivasi) {
       return children;
     }
 
@@ -217,6 +229,39 @@ const App = () => {
               <JADWALGYMRoute>
                 <TambahJadwalGym />
               </JADWALGYMRoute>
+            }
+          />
+          {/*  Aktivasi */}
+          <Route
+            path="/aktivasi"
+            element={
+              <AKTIVASIRoute>
+                <TampilAktivasi />
+              </AKTIVASIRoute>
+            }
+          />
+          <Route
+            path="/aktivasi/:id"
+            element={
+              <AKTIVASIRoute>
+                <TampilAktivasi />
+              </AKTIVASIRoute>
+            }
+          />
+          {/* <Route
+            path="/aktivasi/:id/edit"
+            element={
+              <AKTIVASIRoute>
+                <UbahJadwalGym />
+              </AKTIVASIRoute>
+            }
+          /> */}
+          <Route
+            path="/aktivasi/tambahAktivasi"
+            element={
+              <AKTIVASIRoute>
+                <TambahAktivasi />
+              </AKTIVASIRoute>
             }
           />
         </Routes>
