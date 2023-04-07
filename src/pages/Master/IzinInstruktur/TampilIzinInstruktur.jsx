@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { tempUrl, useStateContext } from "../../../contexts/ContextProvider";
-import { ShowTableJadwalInstruktur } from "../../../components/ShowTable";
+import { ShowTableIzinInstruktur } from "../../../components/ShowTable";
 import { FetchErrorHandling } from "../../../components/FetchErrorHandling";
 import {
   SearchBar,
@@ -12,27 +12,27 @@ import {
   ButtonModifier
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
-import { Box, Pagination } from "@mui/material";
+import { Box, Pagination, Button } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
-const TampilJadwalInstruktur = () => {
+const TampilIzinInstruktur = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const { screenSize } = useStateContext();
 
   const [isFetchError, setIsFetchError] = useState(false);
-  const [namaKelas, setNamaKelas] = useState("");
   const [dariJam, setDariJam] = useState("");
   const [sampaiJam, setSampaiJam] = useState("");
   const [tanggal, setTanggal] = useState("");
-  const [jumlahMember, setJumlahMember] = useState("");
-  const [jumlahMemberMax, setJumlahMemberMax] = useState("");
-  const [harga, setHarga] = useState("");
-  const [libur, setLibur] = useState("");
-  const [userId, setUserId] = useState("");
+  const [tanggalDate, setTanggalDate] = useState("");
+  const [member, setMember] = useState("");
+  const [memberId, setMemberId] = useState("");
+  const [absensi, setAbsensi] = useState("");
+  const [konfirmasi, setKonfirmasi] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [jadwalInstrukturs, setJadwalInstrukturs] = useState([]);
+  const [izinInstrukturs, setIzinInstrukturs] = useState([]);
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -42,18 +42,20 @@ const TampilJadwalInstruktur = () => {
   // Get current posts
   const indexOfLastPost = page * PER_PAGE;
   const indexOfFirstPost = indexOfLastPost - PER_PAGE;
-  const tempPosts = jadwalInstrukturs.filter((val) => {
+  const tempPosts = izinInstrukturs.filter((val) => {
     if (searchTerm === "") {
       return val;
     } else if (
-      val.namaKelas.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.dariJam.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.sampaiJam.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.jadwalinstruktur.dariJam
+        .toUpperCase()
+        .includes(searchTerm.toUpperCase()) ||
+      val.jadwalinstruktur.sampaiJam
+        .toUpperCase()
+        .includes(searchTerm.toUpperCase()) ||
       val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.libur.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.jumlahMember == searchTerm ||
-      val.jumlahMemberMax == searchTerm ||
-      val.harga == searchTerm
+      val.user.username.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.konfirmasi.toUpperCase().includes(searchTerm.toUpperCase())
     ) {
       return val;
     }
@@ -61,7 +63,7 @@ const TampilJadwalInstruktur = () => {
   const currentPosts = tempPosts.slice(indexOfFirstPost, indexOfLastPost);
 
   const count = Math.ceil(tempPosts.length / PER_PAGE);
-  const _DATA = usePagination(jadwalInstrukturs, PER_PAGE);
+  const _DATA = usePagination(izinInstrukturs, PER_PAGE);
 
   const handleChange = (e, p) => {
     setPage(p);
@@ -69,34 +71,33 @@ const TampilJadwalInstruktur = () => {
   };
 
   useEffect(() => {
-    getJadwalInstrukturs();
-    id && getJadwalInstrukturById();
+    getIzinInstrukturs();
+    id && getIzinInstrukturById();
   }, [id]);
 
-  const getJadwalInstrukturs = async () => {
+  const getIzinInstrukturs = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${tempUrl}/jadwalInstrukturs`, {
+      const response = await axios.post(`${tempUrl}/izinInstruktur`, {
         _id: user.id,
         token: user.token
       });
-      setJadwalInstrukturs(response.data);
+      setIzinInstrukturs(response.data);
     } catch (err) {
       setIsFetchError(true);
     }
     setLoading(false);
   };
 
-  const getJadwalInstrukturById = async () => {
+  const getIzinInstrukturById = async () => {
     if (id) {
-      const response = await axios.post(`${tempUrl}/jadwalInstrukturs/${id}`, {
+      const response = await axios.post(`${tempUrl}/izinInstruktur/${id}`, {
         _id: user.id,
         token: user.token
       });
-      setNamaKelas(response.data.namaKelas);
-      setDariJam(response.data.dariJam);
-      setSampaiJam(response.data.sampaiJam);
-      let newTanggal = new Date(response.data.tanggal);
+      setDariJam(response.data.jadwalinstruktur.dariJam);
+      setSampaiJam(response.data.jadwalinstruktur.sampaiJam);
+      let newTanggal = new Date(response.data.jadwalinstruktur.tanggal);
       let tempTanggal = `${newTanggal.getDate().toLocaleString("en-US", {
         minimumIntegerDigits: 2,
         useGrouping: false
@@ -105,32 +106,51 @@ const TampilJadwalInstruktur = () => {
         useGrouping: false
       })}-${newTanggal.getFullYear()}`;
       setTanggal(tempTanggal);
-      setJumlahMember(response.data.jumlahMember);
-      setJumlahMemberMax(response.data.jumlahMemberMax);
-      setHarga(response.data.harga);
-      setLibur(response.data.libur);
-      setUserId(response.data.user.username);
+      setTanggalDate(response.data.jadwalinstruktur.tanggal);
+      setMember(response.data.user.username);
+      setMemberId(response.data.jadwalinstruktur.id);
+      setAbsensi(response.data.absensi);
+      setKonfirmasi(response.data.konfirmasi);
     }
   };
 
-  const deleteJadwalInstruktur = async (id) => {
+  const konfirmasiIzinInstruktur = async (e) => {
     setLoading(true);
     try {
-      await axios.post(`${tempUrl}/deleteJadwalInstruktur/${id}`, {
+      setLoading(true);
+      await axios.post(`${tempUrl}/konfirmasiIzinInstruktur/${id}`, {
+        jadwalInstrukturId: memberId,
         _id: user.id,
         token: user.token
       });
-      getJadwalInstrukturs();
-      setNamaKelas("");
+      setLoading(false);
+      navigate(`/izinInstruktur`);
+    } catch (error) {
+      alert(error);
+    }
+    setLoading(false);
+  };
+
+  const deleteIzinInstruktur = async (id) => {
+    setLoading(true);
+    try {
+      await axios.post(`${tempUrl}/deleteIzinInstruktur/${id}`, {
+        jadwalInstrukturId: memberId,
+        _id: user.id,
+        token: user.token
+      });
+      getIzinInstrukturs();
       setDariJam("");
       setSampaiJam("");
       setTanggal("");
-      setJumlahMember("");
-      setJumlahMemberMax("");
-      navigate("/jadwalInstruktur");
+      setTanggalDate("");
+      setMember("");
+      setAbsensi("");
+      setKonfirmasi("");
+      navigate("/izinInstruktur");
     } catch (error) {
       if (error.response.data.message.includes("foreign key")) {
-        alert(`${namaKelas} tidak bisa dihapus karena sudah ada data!`);
+        alert(`${member} tidak bisa dihapus karena sudah ada data!`);
       }
     }
     setLoading(false);
@@ -151,37 +171,34 @@ const TampilJadwalInstruktur = () => {
   return (
     <Container>
       <h3>Master</h3>
-      <h5 style={{ fontWeight: 400 }}>Daftar Jadwal Instruktur</h5>
+      <h5 style={{ fontWeight: 400 }}>Daftar Izin Instruktur</h5>
       <Box sx={buttonModifierContainer}>
         <ButtonModifier
           id={id}
           kode={id}
-          addLink={`/jadwalInstruktur/tambahJadwalInstruktur`}
-          editLink={`/jadwalInstruktur/${id}/edit`}
-          deleteUser={deleteJadwalInstruktur}
-          nameUser={namaKelas}
+          addLink={`/izinInstruktur/tambahIzinInstruktur`}
+          editLink={null}
+          deleteUser={deleteIzinInstruktur}
+          nameUser={member}
         />
+        {id && (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<EditIcon />}
+            sx={{ textTransform: "none" }}
+            onClick={() => {
+              konfirmasiIzinInstruktur();
+            }}
+          >
+            Konfirmasi
+          </Button>
+        )}
       </Box>
       {id && (
         <Container>
           <hr />
           <Form>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
-                    Nama Kelas :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control value={namaKelas} disabled readOnly />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
             <Row>
               <Col sm={6}>
                 <Form.Group
@@ -238,82 +255,50 @@ const TampilJadwalInstruktur = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
-                    Jumlah Member :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control value={jumlahMember} disabled readOnly />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
-                    Jumlah Member Max :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control value={jumlahMemberMax} disabled readOnly />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
-                    Harga :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control
-                      value={harga.toLocaleString()}
-                      disabled
-                      readOnly
-                    />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
-                    Libur :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control
-                      value={libur === true ? "LIBUR" : "MASUK"}
-                      disabled
-                      readOnly
-                    />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
                     Instruktur :
                   </Form.Label>
                   <Col sm="9">
-                    <Form.Control value={userId} disabled readOnly />
+                    <Form.Control value={member} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Absensi :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      value={absensi === true ? "MASUK" : "IZIN"}
+                      disabled
+                      readOnly
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Konfirmasi :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      value={konfirmasi === true ? "TERKONFIRMASI" : "BELUM"}
+                      disabled
+                      readOnly
+                    />
                   </Col>
                 </Form.Group>
               </Col>
@@ -326,7 +311,7 @@ const TampilJadwalInstruktur = () => {
         <SearchBar setSearchTerm={setSearchTerm} />
       </Box>
       <Box sx={tableContainer}>
-        <ShowTableJadwalInstruktur
+        <ShowTableIzinInstruktur
           currentPosts={currentPosts}
           searchTerm={searchTerm}
         />
@@ -344,7 +329,7 @@ const TampilJadwalInstruktur = () => {
   );
 };
 
-export default TampilJadwalInstruktur;
+export default TampilIzinInstruktur;
 
 const buttonModifierContainer = {
   mt: 4,

@@ -97,6 +97,11 @@ const Sidebar = ({
                 Booking Kelas <NavLink to="/bookingKelas" />
               </MenuItem>
             )}
+            {user.akses.izinInstruktur === true && (
+              <MenuItem>
+                Izin Instruktur <NavLink to="/izinInstruktur" />
+              </MenuItem>
+            )}
           </SubMenu>
           <SubMenu title={"Utility"} icon={<FaUserCog />}>
             {user.akses.profilUser === true && (

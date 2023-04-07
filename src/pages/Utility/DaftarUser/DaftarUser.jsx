@@ -39,10 +39,13 @@ const DaftarUser = () => {
   const [bookingKelas, setBookingKelas] = useState(false);
   const [jadwalGym, setJadwalGym] = useState(false);
   const [jadwalInstruktur, setJadwalInstruktur] = useState(false);
+  const [izinInstruktur, setIzinInstruktur] = useState(false);
 
   // Akses Utility
   const [profilUser, setProfilUser] = useState(false);
   const [daftarUser, setDaftarUser] = useState(false);
+  const [aktivasi, setAktivasi] = useState(false);
+  const [depositAkses, setDepositAkses] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUser] = useState([]);
@@ -175,10 +178,13 @@ const DaftarUser = () => {
       setBookingKelas(response.data.akses.bookingKelas);
       setJadwalGym(response.data.akses.jadwalGym);
       setJadwalInstruktur(response.data.akses.jadwalInstruktur);
+      setIzinInstruktur(response.data.akses.izinInstruktur);
 
       // Akses Utility
       setProfilUser(response.data.akses.profilUser);
       setDaftarUser(response.data.akses.daftarUser);
+      setAktivasi(response.data.akses.aktivasi);
+      setDepositAkses(response.data.akses.deposit);
     }
   };
 
@@ -346,6 +352,12 @@ const DaftarUser = () => {
                       disabled
                       checked={jadwalInstruktur}
                     />
+                    <Form.Check
+                      type="checkbox"
+                      label="Izin Instruktur"
+                      disabled
+                      checked={izinInstruktur}
+                    />
                   </Form>
                 </Box>
                 <Box sx={[showDataWrapper, secondWrapper]}>
@@ -362,6 +374,18 @@ const DaftarUser = () => {
                       label="Daftar User"
                       disabled
                       checked={daftarUser}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Aktivasi"
+                      disabled
+                      checked={aktivasi}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Deposit"
+                      disabled
+                      checked={depositAkses}
                     />
                   </Form>
                 </Box>

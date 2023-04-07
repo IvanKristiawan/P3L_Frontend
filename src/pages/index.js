@@ -20,6 +20,9 @@ export { default as TambahBookingGym } from "./Master/BookingGym/TambahBookingGy
 // Booking Kelas Page
 export { default as TampilBookingKelas } from "./Master/BookingKelas/TampilBookingKelas";
 export { default as TambahBookingKelas } from "./Master/BookingKelas/TambahBookingKelas";
+// Izin Instruktur
+export { default as TampilIzinInstruktur } from "./Master/IzinInstruktur/TampilIzinInstruktur";
+export { default as TambahIzinInstruktur } from "./Master/IzinInstruktur/TambahIzinInstruktur";
 // Aktivasi
 export { default as TampilAktivasi } from "./Utility/Aktivasi/TampilAktivasi";
 export { default as TambahAktivasi } from "./Utility/Aktivasi/TambahAktivasi";

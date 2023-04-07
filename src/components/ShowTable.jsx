@@ -123,7 +123,13 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
             >
               Jml. Max
             </TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Harga</TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Harga
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Libur</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -140,6 +146,7 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase()) ||
                 val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.libur.toUpperCase().includes(searchTerm.toUpperCase()) ||
                 val.jumlahMember == searchTerm ||
                 val.jumlahMemberMax == searchTerm ||
                 val.harga == searchTerm
@@ -168,6 +175,7 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
                 <TableCell>{user.jumlahMember.toLocaleString()}</TableCell>
                 <TableCell>{user.jumlahMemberMax.toLocaleString()}</TableCell>
                 <TableCell>{user.harga.toLocaleString()}</TableCell>
+                <TableCell>{user.libur}</TableCell>
               </TableRow>
             ))}
         </TableBody>
@@ -601,6 +609,97 @@ export function ShowTableBookingKelas({ currentPosts, searchTerm }) {
                 <TableCell>
                   {user.jadwalinstruktur.harga.toLocaleString()}
                 </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
+export function ShowTableIzinInstruktur({ currentPosts, searchTerm }) {
+  let navigate = useNavigate();
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table aria-label="simple table">
+        <TableHead className={classes.root}>
+          <TableRow>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Dari
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Sampai
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Tanggal
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Instruktur
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Absensi
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Konfirmasi</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPosts
+            .filter((val) => {
+              if (searchTerm === "") {
+                return val;
+              } else if (
+                val.jadwalinstruktur.dariJam
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.jadwalinstruktur.sampaiJam
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.user.username
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.konfirmasi.toUpperCase().includes(searchTerm.toUpperCase())
+              ) {
+                return val;
+              }
+            })
+            .map((user, index) => (
+              <TableRow
+                key={user.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { bgcolor: Colors.grey300 },
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  navigate(`/izinInstruktur/${user.id}`);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.jadwalinstruktur.dariJam}
+                </TableCell>
+                <TableCell>{user.jadwalinstruktur.sampaiJam}</TableCell>
+                <TableCell>{user.tanggal}</TableCell>
+                <TableCell>{user.user.username}</TableCell>
+                <TableCell>{user.absensi}</TableCell>
+                <TableCell>{user.konfirmasi}</TableCell>
               </TableRow>
             ))}
         </TableBody>

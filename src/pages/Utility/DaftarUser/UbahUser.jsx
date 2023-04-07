@@ -33,10 +33,13 @@ const UbahUser = () => {
   const [bookingKelas, setBookingKelas] = useState(false);
   const [jadwalGym, setJadwalGym] = useState(false);
   const [jadwalInstruktur, setJadwalInstruktur] = useState(false);
+  const [izinInstruktur, setIzinInstruktur] = useState(false);
 
   // Akses Utility
   const [profilUser, setProfilUser] = useState(false);
   const [daftarUser, setDaftarUser] = useState(false);
+  const [aktivasi, setAktivasi] = useState(false);
+  const [depositAkses, setDepositAkses] = useState(false);
 
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -80,10 +83,13 @@ const UbahUser = () => {
     setBookingKelas(response.data.akses.bookingKelas);
     setJadwalGym(response.data.akses.jadwalGym);
     setJadwalInstruktur(response.data.akses.jadwalInstruktur);
+    setIzinInstruktur(response.data.akses.izinInstruktur);
 
     // Akses Utility
     setProfilUser(response.data.akses.profilUser);
     setDaftarUser(response.data.akses.daftarUser);
+    setAktivasi(response.data.akses.aktivasi);
+    setDepositAkses(response.data.akses.deposit);
 
     setLoading(false);
   };
@@ -120,8 +126,11 @@ const UbahUser = () => {
               bookingKelas,
               jadwalGym,
               jadwalInstruktur,
+              izinInstruktur,
               profilUser,
-              daftarUser
+              daftarUser,
+              aktivasi,
+              deposit: depositAkses
             },
             _id: user.id,
             token: user.token
@@ -278,6 +287,12 @@ const UbahUser = () => {
                       checked={jadwalInstruktur}
                       onChange={() => setJadwalInstruktur(!jadwalInstruktur)}
                     />
+                    <Form.Check
+                      type="checkbox"
+                      label="Izin Instruktur"
+                      checked={izinInstruktur}
+                      onChange={() => setIzinInstruktur(!izinInstruktur)}
+                    />
                   </Form>
                 </Box>
                 <Box sx={[showDataWrapper, secondWrapper]}>
@@ -294,6 +309,18 @@ const UbahUser = () => {
                       label="Daftar User"
                       checked={daftarUser}
                       onChange={() => setDaftarUser(!daftarUser)}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Aktivasi"
+                      checked={aktivasi}
+                      onChange={() => setAktivasi(!aktivasi)}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Deposit"
+                      checked={depositAkses}
+                      onChange={() => setDepositAkses(!depositAkses)}
                     />
                   </Form>
                 </Box>
