@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
@@ -12,9 +12,14 @@ import {
   ButtonModifier
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
-import { Box, Pagination } from "@mui/material";
+import { Box, Pagination, Button, ButtonGroup } from "@mui/material";
+import jsPDF from "jspdf";
+import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from "@mui/icons-material/Edit";
+import PrintIcon from "@mui/icons-material/Print";
 
 const TampilBookingKelas = () => {
+  const reportTemplateRef = useRef(null);
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -30,6 +35,7 @@ const TampilBookingKelas = () => {
   const [absensi, setAbsensi] = useState("");
   const [harga, setHarga] = useState("");
   const [masaAktif, setMasaAktif] = useState("");
+  const [previewPdf, setPreviewPdf] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [bookingGyms, setBookingGyms] = useState([]);
@@ -69,6 +75,20 @@ const TampilBookingKelas = () => {
   const handleChange = (e, p) => {
     setPage(p);
     _DATA.jump(p);
+  };
+
+  const handleGeneratePdf = () => {
+    const doc = new jsPDF({
+      format: "a4",
+      unit: "px"
+    });
+
+    doc.html(reportTemplateRef.current, {
+      async callback(doc) {
+        await doc.save("StrukBookingKelas");
+      },
+      html2canvas: { scale: 0.5 }
+    });
   };
 
   useEffect(() => {
@@ -120,6 +140,22 @@ const TampilBookingKelas = () => {
       });
       setMasaAktif(aktivasiUser.data.masaAktif);
     }
+  };
+
+  const presensiBookingKelas = async (e) => {
+    setLoading(true);
+    try {
+      setLoading(true);
+      await axios.post(`${tempUrl}/presensiBookingKelas/${id}`, {
+        _id: user.id,
+        token: user.token
+      });
+      setLoading(false);
+      navigate(`/bookingKelas`);
+    } catch (error) {
+      alert(error);
+    }
+    setLoading(false);
   };
 
   function subsDays(date, days) {
@@ -184,7 +220,55 @@ const TampilBookingKelas = () => {
           deleteUser={deleteBookingKelas}
           nameUser={member}
         />
+        {id && (
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<EditIcon />}
+            sx={{ textTransform: "none" }}
+            onClick={() => {
+              presensiBookingKelas();
+            }}
+          >
+            Presensi Masuk
+          </Button>
+        )}
       </Box>
+      {id && (
+        <Box sx={downloadButtons}>
+          <ButtonGroup variant="outlined" color="secondary">
+            <Button
+              color="primary"
+              startIcon={<SearchIcon />}
+              onClick={() => {
+                setPreviewPdf(!previewPdf);
+              }}
+            >
+              PDF
+            </Button>
+          </ButtonGroup>
+        </Box>
+      )}
+      {previewPdf && (
+        <>
+          <div>
+            <Button
+              variant="outlined"
+              startIcon={<PrintIcon />}
+              onClick={handleGeneratePdf}
+            >
+              CETAK
+            </Button>
+          </div>
+          <div ref={reportTemplateRef} style={cetakContainer}>
+            <p style={cetakCenter}>Struk Booking Kelas</p>
+            <p style={cetakCenter}>No. Booking: {noBooking}</p>
+            <p style={cetakCenter}>Tanggal: {tanggal}</p>
+            <p style={cetakCenter}>Harga: {harga.toLocaleString()}</p>
+            <p style={cetakCenter}>Member: {member}</p>
+          </div>
+        </>
+      )}
       {id && (
         <Container>
           <hr />
@@ -354,4 +438,24 @@ const tableContainer = {
   pt: 4,
   display: "flex",
   justifyContent: "center"
+};
+
+const downloadButtons = {
+  mt: 4,
+  mb: 4,
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center"
+};
+
+const cetakContainer = {
+  width: "300px",
+  fontSize: "16px",
+  letterSpacing: "0.01px"
+};
+
+const cetakCenter = {
+  textAlign: "center",
+  marginTop: "0px",
+  marginBottom: "0px"
 };

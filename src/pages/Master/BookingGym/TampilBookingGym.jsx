@@ -261,6 +261,7 @@ const TampilBookingGym = () => {
           <div ref={reportTemplateRef} style={cetakContainer}>
             <p style={cetakCenter}>Struk Booking Gym</p>
             <p style={cetakCenter}>No. Booking: {noBooking}</p>
+            <p style={cetakCenter}>Tanggal: {tanggal}</p>
             <p style={cetakCenter}>Harga: {harga.toLocaleString()}</p>
             <p style={cetakCenter}>Member: {member}</p>
           </div>
