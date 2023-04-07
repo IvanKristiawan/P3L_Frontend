@@ -34,6 +34,11 @@ const TambahUser = () => {
   const [jadwalInstruktur, setJadwalInstruktur] = useState(false);
   const [izinInstruktur, setIzinInstruktur] = useState(false);
 
+  // Akses Laporan
+  const [laporanGym, setLaporanGym] = useState(false);
+  const [laporanKelas, setLaporanKelas] = useState(false);
+  const [laporanInstruktur, setLaporanInstruktur] = useState(false);
+
   // Akses Utility
   const [profilUser, setProfilUser] = useState(false);
   const [daftarUser, setDaftarUser] = useState(false);
@@ -90,6 +95,9 @@ const TambahUser = () => {
               jadwalGym,
               jadwalInstruktur,
               izinInstruktur,
+              laporanGym,
+              laporanKelas,
+              laporanInstruktur,
               profilUser,
               daftarUser,
               aktivasi,
@@ -250,6 +258,27 @@ const TambahUser = () => {
                       label="Izin Instruktur"
                       checked={izinInstruktur}
                       onChange={() => setIzinInstruktur(!izinInstruktur)}
+                    />
+                  </Form>
+                  <p style={checkboxTitle}>Laporan</p>
+                  <Form>
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Gym"
+                      checked={laporanGym}
+                      onChange={() => setLaporanGym(!laporanGym)}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Kelas"
+                      checked={laporanKelas}
+                      onChange={() => setLaporanKelas(!laporanKelas)}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Instruktur"
+                      checked={laporanInstruktur}
+                      onChange={() => setLaporanInstruktur(!laporanInstruktur)}
                     />
                   </Form>
                 </Box>

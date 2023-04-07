@@ -28,6 +28,7 @@ const TampilIzinInstruktur = () => {
   const [tanggalDate, setTanggalDate] = useState("");
   const [member, setMember] = useState("");
   const [memberId, setMemberId] = useState("");
+  const [userId, setUserId] = useState("");
   const [absensi, setAbsensi] = useState("");
   const [konfirmasi, setKonfirmasi] = useState("");
 
@@ -109,6 +110,7 @@ const TampilIzinInstruktur = () => {
       setTanggalDate(response.data.jadwalinstruktur.tanggal);
       setMember(response.data.user.username);
       setMemberId(response.data.jadwalinstruktur.id);
+      setUserId(response.data.user.id);
       setAbsensi(response.data.absensi);
       setKonfirmasi(response.data.konfirmasi);
     }
@@ -120,6 +122,7 @@ const TampilIzinInstruktur = () => {
       setLoading(true);
       await axios.post(`${tempUrl}/konfirmasiIzinInstruktur/${id}`, {
         jadwalInstrukturId: memberId,
+        userId,
         _id: user.id,
         token: user.token
       });
@@ -136,6 +139,7 @@ const TampilIzinInstruktur = () => {
     try {
       await axios.post(`${tempUrl}/deleteIzinInstruktur/${id}`, {
         jadwalInstrukturId: memberId,
+        userId,
         _id: user.id,
         token: user.token
       });

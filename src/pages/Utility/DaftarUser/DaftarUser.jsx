@@ -41,6 +41,11 @@ const DaftarUser = () => {
   const [jadwalInstruktur, setJadwalInstruktur] = useState(false);
   const [izinInstruktur, setIzinInstruktur] = useState(false);
 
+  // Akses Laporan
+  const [laporanGym, setLaporanGym] = useState(false);
+  const [laporanKelas, setLaporanKelas] = useState(false);
+  const [laporanInstruktur, setLaporanInstruktur] = useState(false);
+
   // Akses Utility
   const [profilUser, setProfilUser] = useState(false);
   const [daftarUser, setDaftarUser] = useState(false);
@@ -179,6 +184,11 @@ const DaftarUser = () => {
       setJadwalGym(response.data.akses.jadwalGym);
       setJadwalInstruktur(response.data.akses.jadwalInstruktur);
       setIzinInstruktur(response.data.akses.izinInstruktur);
+
+      // Akses Laporan
+      setLaporanGym(response.data.akses.laporanGym);
+      setLaporanKelas(response.data.akses.laporanKelas);
+      setLaporanInstruktur(response.data.akses.laporanInstruktur);
 
       // Akses Utility
       setProfilUser(response.data.akses.profilUser);
@@ -357,6 +367,27 @@ const DaftarUser = () => {
                       label="Izin Instruktur"
                       disabled
                       checked={izinInstruktur}
+                    />
+                  </Form>
+                  <p style={checkboxTitle}>Laporan</p>
+                  <Form>
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Gym"
+                      disabled
+                      checked={laporanGym}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Kelas"
+                      disabled
+                      checked={laporanKelas}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Instruktur"
+                      disabled
+                      checked={laporanInstruktur}
                     />
                   </Form>
                 </Box>
