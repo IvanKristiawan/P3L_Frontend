@@ -27,6 +27,7 @@ const TampilAktivasi = () => {
   const [isFetchError, setIsFetchError] = useState(false);
   const [kodeAktivasi, setKodeAktivasi] = useState("");
   const [masaAktif, setMasaAktif] = useState("");
+  const [jumlahAktivasi, setJumlahAktivasi] = useState("");
   const [userId, setUserId] = useState("");
   const [previewPdf, setPreviewPdf] = useState(false);
 
@@ -47,6 +48,7 @@ const TampilAktivasi = () => {
     } else if (
       val.kodeAktivasi.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.masaAktif.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.jumlahAktivasi == searchTerm ||
       val.user.username.toUpperCase().includes(searchTerm.toUpperCase())
     ) {
       return val;
@@ -112,6 +114,7 @@ const TampilAktivasi = () => {
       })}-${newTanggal.getFullYear()}`;
       setMasaAktif(tempTanggal);
       setUserId(response.data.user.username);
+      setJumlahAktivasi(response.data.jumlahAktivasi);
     }
   };
 
@@ -125,6 +128,7 @@ const TampilAktivasi = () => {
       getAktivasis();
       setKodeAktivasi("");
       setMasaAktif("");
+      setJumlahAktivasi("");
       navigate("/aktivasi");
     } catch (error) {
       if (error.response.data.message.includes("foreign key")) {
@@ -190,6 +194,7 @@ const TampilAktivasi = () => {
             <p style={cetakCenter}>Aktivasi</p>
             <p style={cetakCenter}>No Aktivasi: {kodeAktivasi}</p>
             <p style={cetakCenter}>Masa Aktif: {masaAktif}</p>
+            <p style={cetakCenter}>Jml. Rp: {jumlahAktivasi}</p>
             <p style={cetakCenter}>Member: {userId}</p>
           </div>
         </>
@@ -226,6 +231,22 @@ const TampilAktivasi = () => {
                   </Form.Label>
                   <Col sm="9">
                     <Form.Control value={masaAktif} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Jumlah Aktivasi :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={jumlahAktivasi} disabled readOnly />
                   </Col>
                 </Form.Group>
               </Col>

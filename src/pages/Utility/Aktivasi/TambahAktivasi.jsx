@@ -17,6 +17,7 @@ const TambahAktivasi = () => {
   const [validated, setValidated] = useState(false);
   const [kodeAktivasi, setKodeAktivasi] = useState("");
   const [masaAktif, setMasaAktif] = useState(new Date());
+  const [jumlahAktivasi, setJumlahAktivasi] = useState("");
   const [userId, setUserId] = useState("");
 
   const [members, setMembers] = useState([]);
@@ -137,6 +138,29 @@ const TambahAktivasi = () => {
                       selected={masaAktif}
                       customInput={<Form.Control required />}
                       onChange={(date) => setMasaAktif(date)}
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Jumlah Aktivasi :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      type="number"
+                      value={jumlahAktivasi}
+                      onChange={(e) =>
+                        setJumlahAktivasi(e.target.value.toUpperCase())
+                      }
                     />
                   </Col>
                 </Form.Group>

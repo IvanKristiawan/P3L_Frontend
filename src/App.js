@@ -30,7 +30,8 @@ import {
   TambahIzinInstruktur,
   LaporanKelas,
   LaporanGym,
-  LaporanInstruktur
+  LaporanInstruktur,
+  LaporanPendapatan
 } from "./pages/index";
 
 const App = () => {
@@ -141,6 +142,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.laporanInstruktur) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const LAPORANPENDAPATANRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.laporanPendapatan) {
       return children;
     }
 
@@ -460,6 +471,14 @@ const App = () => {
               <LAPORANINSTRUKTURRoute>
                 <LaporanInstruktur />
               </LAPORANINSTRUKTURRoute>
+            }
+          />
+          <Route
+            path="/laporanPendapatan"
+            element={
+              <LAPORANPENDAPATANRoute>
+                <LaporanPendapatan />
+              </LAPORANPENDAPATANRoute>
             }
           />
         </Routes>

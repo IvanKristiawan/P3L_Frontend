@@ -39,6 +39,7 @@ const UbahUser = () => {
   const [laporanGym, setLaporanGym] = useState(false);
   const [laporanKelas, setLaporanKelas] = useState(false);
   const [laporanInstruktur, setLaporanInstruktur] = useState(false);
+  const [laporanPendapatan, setLaporanPendapatan] = useState(false);
 
   // Akses Utility
   const [profilUser, setProfilUser] = useState(false);
@@ -94,6 +95,7 @@ const UbahUser = () => {
     setLaporanGym(response.data.akses.laporanGym);
     setLaporanKelas(response.data.akses.laporanKelas);
     setLaporanInstruktur(response.data.akses.laporanInstruktur);
+    setLaporanPendapatan(response.data.akses.laporanPendapatan);
 
     // Akses Utility
     setProfilUser(response.data.akses.profilUser);
@@ -140,6 +142,7 @@ const UbahUser = () => {
               laporanGym,
               laporanKelas,
               laporanInstruktur,
+              laporanPendapatan,
               profilUser,
               daftarUser,
               aktivasi,
@@ -326,6 +329,12 @@ const UbahUser = () => {
                       label="Laporan Instruktur"
                       checked={laporanInstruktur}
                       onChange={() => setLaporanInstruktur(!laporanInstruktur)}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Pendapatan"
+                      checked={laporanPendapatan}
+                      onChange={() => setLaporanPendapatan(!laporanPendapatan)}
                     />
                   </Form>
                 </Box>

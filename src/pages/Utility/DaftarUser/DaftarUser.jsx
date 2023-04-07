@@ -45,6 +45,7 @@ const DaftarUser = () => {
   const [laporanGym, setLaporanGym] = useState(false);
   const [laporanKelas, setLaporanKelas] = useState(false);
   const [laporanInstruktur, setLaporanInstruktur] = useState(false);
+  const [laporanPendapatan, setLaporanPendapatan] = useState(false);
 
   // Akses Utility
   const [profilUser, setProfilUser] = useState(false);
@@ -189,6 +190,7 @@ const DaftarUser = () => {
       setLaporanGym(response.data.akses.laporanGym);
       setLaporanKelas(response.data.akses.laporanKelas);
       setLaporanInstruktur(response.data.akses.laporanInstruktur);
+      setLaporanPendapatan(response.data.akses.laporanPendapatan);
 
       // Akses Utility
       setProfilUser(response.data.akses.profilUser);
@@ -388,6 +390,12 @@ const DaftarUser = () => {
                       label="Laporan Instruktur"
                       disabled
                       checked={laporanInstruktur}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Pendapatan"
+                      disabled
+                      checked={laporanPendapatan}
                     />
                   </Form>
                 </Box>

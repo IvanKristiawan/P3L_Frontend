@@ -33,3 +33,4 @@ export { default as TambahDeposit } from "./Utility/Deposit/TambahDeposit";
 export { default as LaporanKelas } from "./Laporan/LaporanKelas/LaporanKelas";
 export { default as LaporanGym } from "./Laporan/LaporanGym/LaporanGym";
 export { default as LaporanInstruktur } from "./Laporan/LaporanInstruktur/LaporanInstruktur";
+export { default as LaporanPendapatan } from "./Laporan/LaporanPendapatan/LaporanPendapatan";

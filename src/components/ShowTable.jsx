@@ -299,6 +299,12 @@ export function ShowTableAktivasi({ currentPosts, searchTerm }) {
             >
               Masa Aktif
             </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Jml. Rp
+            </TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Member</TableCell>
           </TableRow>
         </TableHead>
@@ -314,6 +320,7 @@ export function ShowTableAktivasi({ currentPosts, searchTerm }) {
                 val.masaAktif
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase()) ||
+                val.jumlahAktivasi == searchTerm ||
                 val.user.username
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase())
@@ -337,6 +344,7 @@ export function ShowTableAktivasi({ currentPosts, searchTerm }) {
                   {user.kodeAktivasi}
                 </TableCell>
                 <TableCell>{user.masaAktif}</TableCell>
+                <TableCell>{user.jumlahAktivasi.toLocaleString()}</TableCell>
                 <TableCell>{user.user.username}</TableCell>
               </TableRow>
             ))}

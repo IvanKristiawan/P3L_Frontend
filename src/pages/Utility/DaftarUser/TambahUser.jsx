@@ -38,6 +38,7 @@ const TambahUser = () => {
   const [laporanGym, setLaporanGym] = useState(false);
   const [laporanKelas, setLaporanKelas] = useState(false);
   const [laporanInstruktur, setLaporanInstruktur] = useState(false);
+  const [laporanPendapatan, setLaporanPendapatan] = useState(false);
 
   // Akses Utility
   const [profilUser, setProfilUser] = useState(false);
@@ -98,6 +99,7 @@ const TambahUser = () => {
               laporanGym,
               laporanKelas,
               laporanInstruktur,
+              laporanPendapatan,
               profilUser,
               daftarUser,
               aktivasi,
@@ -279,6 +281,12 @@ const TambahUser = () => {
                       label="Laporan Instruktur"
                       checked={laporanInstruktur}
                       onChange={() => setLaporanInstruktur(!laporanInstruktur)}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Laporan Pendapatan"
+                      checked={laporanPendapatan}
+                      onChange={() => setLaporanPendapatan(!laporanPendapatan)}
                     />
                   </Form>
                 </Box>
