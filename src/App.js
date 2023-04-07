@@ -27,7 +27,9 @@ import {
   TampilBookingKelas,
   TambahBookingKelas,
   TampilIzinInstruktur,
-  TambahIzinInstruktur
+  TambahIzinInstruktur,
+  LaporanKelas,
+  LaporanGym
 } from "./pages/index";
 
 const App = () => {
@@ -108,6 +110,26 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.izinInstruktur) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const LAPORANKELASRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.laporanKelas) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const LAPORANGYMRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.laporanGym) {
       return children;
     }
 
@@ -402,6 +424,23 @@ const App = () => {
               <IZININSTRUKTURRoute>
                 <TambahIzinInstruktur />
               </IZININSTRUKTURRoute>
+            }
+          />
+          {/* Laporan */}
+          <Route
+            path="/laporanKelas"
+            element={
+              <LAPORANKELASRoute>
+                <LaporanKelas />
+              </LAPORANKELASRoute>
+            }
+          />
+          <Route
+            path="/laporanGym"
+            element={
+              <LAPORANGYMRoute>
+                <LaporanGym />
+              </LAPORANGYMRoute>
             }
           />
         </Routes>

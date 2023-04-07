@@ -29,3 +29,6 @@ export { default as TambahAktivasi } from "./Utility/Aktivasi/TambahAktivasi";
 // Deposit
 export { default as TampilDeposit } from "./Utility/Deposit/TampilDeposit";
 export { default as TambahDeposit } from "./Utility/Deposit/TambahDeposit";
+// Laporan
+export { default as LaporanKelas } from "./Laporan/LaporanKelas/LaporanKelas";
+export { default as LaporanGym } from "./Laporan/LaporanGym/LaporanGym";

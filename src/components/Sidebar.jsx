@@ -103,6 +103,18 @@ const Sidebar = ({
               </MenuItem>
             )}
           </SubMenu>
+          <SubMenu title={"Laporan"} icon={<FaBook />}>
+            {user.akses.laporanGym === true && (
+              <MenuItem>
+                Laporan Gym <NavLink to="/laporanGym" />
+              </MenuItem>
+            )}
+            {user.akses.laporanKelas === true && (
+              <MenuItem>
+                Laporan Kelas <NavLink to="/laporanKelas" />
+              </MenuItem>
+            )}
+          </SubMenu>
           <SubMenu title={"Utility"} icon={<FaUserCog />}>
             {user.akses.profilUser === true && (
               <MenuItem>
