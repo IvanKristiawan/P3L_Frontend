@@ -12,7 +12,15 @@ import {
   ButtonModifier
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
-import { Box, Pagination } from "@mui/material";
+import {
+  Box,
+  Pagination,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel
+} from "@mui/material";
 
 const TampilJadwalInstruktur = () => {
   const { user } = useContext(AuthContext);
@@ -30,6 +38,7 @@ const TampilJadwalInstruktur = () => {
   const [harga, setHarga] = useState("");
   const [libur, setLibur] = useState("");
   const [userId, setUserId] = useState("");
+  const [grouping, setGrouping] = useState("SEMUA");
 
   const [searchTerm, setSearchTerm] = useState("");
   const [jadwalInstrukturs, setJadwalInstrukturs] = useState([]);
@@ -73,10 +82,33 @@ const TampilJadwalInstruktur = () => {
     id && getJadwalInstrukturById();
   }, [id]);
 
+  const handleChangeGrouping = (event) => {
+    setGrouping(event.target.value);
+    if (event.target.value === "SEMUA") {
+      getJadwalInstrukturs();
+    } else if (event.target.value === "HARI INI") {
+      getKelasHariIni();
+    }
+  };
+
   const getJadwalInstrukturs = async () => {
     setLoading(true);
     try {
       const response = await axios.post(`${tempUrl}/jadwalInstrukturs`, {
+        _id: user.id,
+        token: user.token
+      });
+      setJadwalInstrukturs(response.data);
+    } catch (err) {
+      setIsFetchError(true);
+    }
+    setLoading(false);
+  };
+
+  const getKelasHariIni = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post(`${tempUrl}/kelasHariIni`, {
         _id: user.id,
         token: user.token
       });
@@ -152,6 +184,29 @@ const TampilJadwalInstruktur = () => {
     <Container>
       <h3>Master</h3>
       <h5 style={{ fontWeight: 400 }}>Daftar Jadwal Instruktur</h5>
+      <hr />
+      <Row>
+        <FormControl sx={{ marginTop: 1 }}>
+          <FormLabel id="demo-controlled-radio-buttons-group">
+            Grouping
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            defaultValue="SEMUA"
+            value={grouping}
+            onChange={handleChangeGrouping}
+          >
+            <FormControlLabel value="SEMUA" control={<Radio />} label="Semua" />
+            <FormControlLabel
+              value="HARI INI"
+              control={<Radio />}
+              label="Hari Ini"
+            />
+          </RadioGroup>
+        </FormControl>
+      </Row>
       <Box sx={buttonModifierContainer}>
         <ButtonModifier
           id={id}
