@@ -307,34 +307,8 @@ const cetakContainer = {
   letterSpacing: "0.01px"
 };
 
-const cetakWrapper = {
-  display: "flex",
-  justifyContent: "space-between",
-  marginTop: "-10px",
-  marginBottom: "-20px"
-};
-
-const cetakWrapperTotal = {
-  display: "flex",
-  justifyContent: "space-between",
-  marginTop: "-10px",
-  marginBottom: "10px"
-};
-
-const cetakWrapperText = {
-  display: "flex",
-  justifyContent: "space-around"
-};
-
 const cetakCenter = {
   textAlign: "center",
   marginTop: "0px",
   marginBottom: "0px"
-};
-
-const cetakCenterBold = {
-  textAlign: "center",
-  marginTop: "0px",
-  marginBottom: "0px",
-  fontWeight: "700"
 };
