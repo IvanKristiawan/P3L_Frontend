@@ -9,7 +9,7 @@ import {
   SearchBar,
   Loader,
   usePagination,
-  ButtonModifier
+  ButtonModifier,
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { Box, Pagination, Button, ButtonGroup } from "@mui/material";
@@ -35,6 +35,9 @@ const TampilBookingKelas = () => {
   const [absensi, setAbsensi] = useState("");
   const [harga, setHarga] = useState("");
   const [masaAktif, setMasaAktif] = useState("");
+  const [namaKelas, setNamaKelas] = useState("");
+  const [namaInstruktur, setNamaInstruktur] = useState("");
+  const [deposit, setDeposit] = useState("");
   const [previewPdf, setPreviewPdf] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -80,14 +83,14 @@ const TampilBookingKelas = () => {
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
       format: "a4",
-      unit: "px"
+      unit: "px",
     });
 
     doc.html(reportTemplateRef.current, {
       async callback(doc) {
         await doc.save("StrukBookingKelas");
       },
-      html2canvas: { scale: 0.5 }
+      html2canvas: { scale: 0.5 },
     });
   };
 
@@ -101,7 +104,7 @@ const TampilBookingKelas = () => {
     try {
       const response = await axios.post(`${tempUrl}/bookingKelas`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setBookingGyms(response.data);
     } catch (err) {
@@ -114,7 +117,7 @@ const TampilBookingKelas = () => {
     if (id) {
       const response = await axios.post(`${tempUrl}/bookingKelas/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setNoBooking(response.data.noBooking);
       setDariJam(response.data.jadwalinstruktur.dariJam);
@@ -122,23 +125,34 @@ const TampilBookingKelas = () => {
       let newTanggal = new Date(response.data.jadwalinstruktur.tanggal);
       let tempTanggal = `${newTanggal.getDate().toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${(newTanggal.getMonth() + 1).toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${newTanggal.getFullYear()}`;
       setTanggal(tempTanggal);
       setTanggalDate(response.data.jadwalinstruktur.tanggal);
       setMember(response.data.user.username);
       setAbsensi(response.data.absensi);
       setHarga(response.data.jadwalinstruktur.harga);
+      setNamaKelas(response.data.jadwalinstruktur.namaKelas);
+      setNamaInstruktur(response.data.jadwalinstruktur.user.username);
 
       const aktivasiUser = await axios.post(`${tempUrl}/aktivasisByUser`, {
         userId: response.data.user.id,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setMasaAktif(aktivasiUser.data.masaAktif);
+
+      const findUser = await axios.post(
+        `${tempUrl}/findUser/${response.data.user.id}`,
+        {
+          _id: user.id,
+          token: user.token,
+        }
+      );
+      setDeposit(findUser.data.deposit);
     }
   };
 
@@ -148,7 +162,7 @@ const TampilBookingKelas = () => {
       setLoading(true);
       await axios.post(`${tempUrl}/presensiBookingKelas/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setLoading(false);
       navigate(`/bookingKelas`);
@@ -173,7 +187,7 @@ const TampilBookingKelas = () => {
       try {
         await axios.post(`${tempUrl}/deleteBookingKelas/${id}`, {
           _id: user.id,
-          token: user.token
+          token: user.token,
         });
         getBookingKelass();
         setDariJam("");
@@ -196,7 +210,7 @@ const TampilBookingKelas = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -261,11 +275,16 @@ const TampilBookingKelas = () => {
             </Button>
           </div>
           <div ref={reportTemplateRef} style={cetakContainer}>
+            <p>GoFit</p>
+            <p>Jl. Centralpark No. 10 Yogyakarta</p>
             <p style={cetakCenter}>Struk Booking Kelas</p>
             <p style={cetakCenter}>No. Booking: {noBooking}</p>
             <p style={cetakCenter}>Tanggal: {tanggal}</p>
-            <p style={cetakCenter}>Harga: {harga.toLocaleString()}</p>
             <p style={cetakCenter}>Member: {member}</p>
+            <p style={cetakCenter}>Kelas: {namaKelas}</p>
+            <p style={cetakCenter}>Instruktur: {namaInstruktur}</p>
+            <p style={cetakCenter}>Harga: {harga.toLocaleString()}</p>
+            <p style={cetakCenter}>Sisa: {deposit.toLocaleString()}</p>
           </div>
         </>
       )}
@@ -425,19 +444,19 @@ const buttonModifierContainer = {
   mt: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const searchBarContainer = {
   pt: 6,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const tableContainer = {
   pt: 4,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const downloadButtons = {
@@ -445,17 +464,17 @@ const downloadButtons = {
   mb: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const cetakContainer = {
   width: "300px",
   fontSize: "16px",
-  letterSpacing: "0.01px"
+  letterSpacing: "0.01px",
 };
 
 const cetakCenter = {
   textAlign: "center",
   marginTop: "0px",
-  marginBottom: "0px"
+  marginBottom: "0px",
 };

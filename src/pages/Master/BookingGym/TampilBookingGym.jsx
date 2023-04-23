@@ -9,7 +9,7 @@ import {
   SearchBar,
   Loader,
   usePagination,
-  ButtonModifier
+  ButtonModifier,
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { Box, Pagination, Button, ButtonGroup } from "@mui/material";
@@ -78,14 +78,14 @@ const TampilBookingGym = () => {
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
       format: "a4",
-      unit: "px"
+      unit: "px",
     });
 
     doc.html(reportTemplateRef.current, {
       async callback(doc) {
         await doc.save("StrukBookingGym");
       },
-      html2canvas: { scale: 0.5 }
+      html2canvas: { scale: 0.5 },
     });
   };
 
@@ -99,7 +99,7 @@ const TampilBookingGym = () => {
     try {
       const response = await axios.post(`${tempUrl}/bookingGyms`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setBookingGyms(response.data);
     } catch (err) {
@@ -114,7 +114,7 @@ const TampilBookingGym = () => {
       setLoading(true);
       await axios.post(`${tempUrl}/presensiBookingGym/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setLoading(false);
       navigate(`/bookingGym`);
@@ -128,7 +128,7 @@ const TampilBookingGym = () => {
     if (id) {
       const response = await axios.post(`${tempUrl}/bookingGyms/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setNoBooking(response.data.noBooking);
       setDariJam(response.data.jadwalgym.dariJam);
@@ -136,10 +136,10 @@ const TampilBookingGym = () => {
       let newTanggal = new Date(response.data.jadwalgym.tanggal);
       let tempTanggal = `${newTanggal.getDate().toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${(newTanggal.getMonth() + 1).toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${newTanggal.getFullYear()}`;
       setTanggal(tempTanggal);
       setTanggalDate(response.data.jadwalgym.tanggal);
@@ -150,7 +150,7 @@ const TampilBookingGym = () => {
       const aktivasiUser = await axios.post(`${tempUrl}/aktivasisByUser`, {
         userId: response.data.user.id,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setMasaAktif(aktivasiUser.data.masaAktif);
     }
@@ -171,7 +171,7 @@ const TampilBookingGym = () => {
       try {
         await axios.post(`${tempUrl}/deleteBookingGym/${id}`, {
           _id: user.id,
-          token: user.token
+          token: user.token,
         });
         getBookingGyms();
         setDariJam("");
@@ -194,7 +194,7 @@ const TampilBookingGym = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -259,11 +259,16 @@ const TampilBookingGym = () => {
             </Button>
           </div>
           <div ref={reportTemplateRef} style={cetakContainer}>
-            <p style={cetakCenter}>Struk Booking Gym</p>
-            <p style={cetakCenter}>No. Booking: {noBooking}</p>
-            <p style={cetakCenter}>Tanggal: {tanggal}</p>
-            <p style={cetakCenter}>Harga: {harga.toLocaleString()}</p>
-            <p style={cetakCenter}>Member: {member}</p>
+            <p>GoFit</p>
+            <p>Jl. Centralpark No. 10 Yogyakarta</p>
+            <p>Struk Presensi Gym</p>
+            <p>No. Struk: {noBooking}</p>
+            <p>Tanggal: {tanggal}</p>
+            <p>Member: {member}</p>
+            <p>Harga: {harga.toLocaleString()}</p>
+            <p>
+              Slot Waktu: {dariJam}-{sampaiJam}
+            </p>
           </div>
         </>
       )}
@@ -423,19 +428,19 @@ const buttonModifierContainer = {
   mt: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const searchBarContainer = {
   pt: 6,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const tableContainer = {
   pt: 4,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const downloadButtons = {
@@ -443,17 +448,17 @@ const downloadButtons = {
   mb: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const cetakContainer = {
   width: "300px",
   fontSize: "16px",
-  letterSpacing: "0.01px"
+  letterSpacing: "0.01px",
 };
 
 const cetakCenter = {
   textAlign: "center",
   marginTop: "0px",
-  marginBottom: "0px"
+  marginBottom: "0px",
 };

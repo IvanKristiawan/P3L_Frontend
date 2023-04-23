@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -25,6 +25,9 @@ const UbahUser = () => {
   const [validated, setValidated] = useState(false);
   const [username, setUsername] = useState("");
   const [usernameLama, setUsernameLama] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [telepon, setTelepon] = useState("");
+  const [tanggalLahir, setTanggalLahir] = useState("");
   const [tipeUser, setTipeUser] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,6 +49,7 @@ const UbahUser = () => {
   const [daftarUser, setDaftarUser] = useState(false);
   const [aktivasi, setAktivasi] = useState(false);
   const [depositAkses, setDepositAkses] = useState(false);
+  const [depositKelas, setDepositKelas] = useState(false);
 
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -78,10 +82,13 @@ const UbahUser = () => {
     setLoading(true);
     const response = await axios.post(`${tempUrl}/findUser/${id}`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setUsername(response.data.username);
     setUsernameLama(response.data.username);
+    setAlamat(response.data.alamat);
+    setTelepon(response.data.telepon);
+    setTanggalLahir(response.data.tanggalLahir);
     setTipeUser(response.data.tipeUser);
 
     // Akses Master
@@ -102,6 +109,7 @@ const UbahUser = () => {
     setDaftarUser(response.data.akses.daftarUser);
     setAktivasi(response.data.akses.aktivasi);
     setDepositAkses(response.data.akses.deposit);
+    setDepositKelas(response.data.akses.depositKelas);
 
     setLoading(false);
   };
@@ -117,7 +125,6 @@ const UbahUser = () => {
           username,
           _id: user.id,
           token: user.token,
-          kodeCabang: user.cabang.id
         });
         let isUsernameNotValid =
           tempUsername.data.length > 0 && username !== usernameLama;
@@ -130,6 +137,9 @@ const UbahUser = () => {
           }
           await axios.post(`${tempUrl}/users/${id}`, {
             username,
+            alamat,
+            telepon,
+            tanggalLahir,
             tipeUser,
             password,
             tipeAdmin: user.tipeUser,
@@ -146,10 +156,11 @@ const UbahUser = () => {
               profilUser,
               daftarUser,
               aktivasi,
-              deposit: depositAkses
+              deposit: depositAkses,
+              depositKelas,
             },
             _id: user.id,
-            token: user.token
+            token: user.token,
           });
           setLoading(false);
 
@@ -172,7 +183,7 @@ const UbahUser = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -220,6 +231,68 @@ const UbahUser = () => {
                       value={username}
                       onChange={(e) =>
                         setUsername(e.target.value.toUpperCase())
+                      }
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Alamat :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      value={alamat}
+                      onChange={(e) => setAlamat(e.target.value.toUpperCase())}
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Telepon :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      value={telepon}
+                      onChange={(e) => setTelepon(e.target.value.toUpperCase())}
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Tanggal Lahir :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      value={tanggalLahir}
+                      onChange={(e) =>
+                        setTanggalLahir(e.target.value.toUpperCase())
                       }
                     />
                   </Col>
@@ -365,6 +438,12 @@ const UbahUser = () => {
                       checked={depositAkses}
                       onChange={() => setDepositAkses(!depositAkses)}
                     />
+                    <Form.Check
+                      type="checkbox"
+                      label="Deposit Kelas"
+                      checked={depositKelas}
+                      onChange={() => setDepositKelas(!depositKelas)}
+                    />
                   </Form>
                 </Box>
               </Box>
@@ -407,8 +486,8 @@ const showDataContainer = {
   display: "flex",
   flexDirection: {
     xs: "column",
-    sm: "row"
-  }
+    sm: "row",
+  },
 };
 
 const showDataWrapper = {
@@ -416,33 +495,33 @@ const showDataWrapper = {
   flex: 1,
   flexDirection: "column",
   maxWidth: {
-    md: "40vw"
-  }
+    md: "40vw",
+  },
 };
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };
 
 const secondWrapper = {
   marginLeft: {
-    sm: 4
+    sm: 4,
   },
   marginTop: {
     sm: 0,
-    xs: 4
-  }
+    xs: 4,
+  },
 };
 
 const checkboxTitle = {
-  marginBottom: 0
+  marginBottom: 0,
 };
 
 const secondCheckboxTitle = {
   marginTop: 15,
-  marginBottom: 0
+  marginBottom: 0,
 };

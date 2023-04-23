@@ -13,6 +13,9 @@ const UbahProfilUser = () => {
   const { screenSize } = useStateContext();
   const { user, dispatch } = useContext(AuthContext);
   const [username, setUsername] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [telepon, setTelepon] = useState("");
+  const [tanggalLahir, setTanggalLahir] = useState("");
   const [tipeUser, setTipeUser] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -27,11 +30,14 @@ const UbahProfilUser = () => {
     setLoading(true);
     const response = await axios.post(`${tempUrl}/findUser/${id}`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setUsername(response.data.username);
+    setAlamat(response.data.alamat);
+    setTelepon(response.data.telepon);
+    setTanggalLahir(response.data.tanggalLahir);
     setTipeUser(response.data.tipeUser);
-    setPassword(response.data.password);
+    setPassword(response.data.tanggalLahir);
     setLoading(false);
   };
 
@@ -45,7 +51,7 @@ const UbahProfilUser = () => {
       await axios.post(`${tempUrl}/users/${id}`, {
         password,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setLoading(false);
       logoutButtonHandler();
@@ -65,12 +71,12 @@ const UbahProfilUser = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   const textRightSmall = {
     textAlign: screenSize >= 650 && "right",
-    fontSize: "13px"
+    fontSize: "13px",
   };
 
   return (
@@ -94,6 +100,54 @@ const UbahProfilUser = () => {
                   </Form.Label>
                   <Col sm="9">
                     <Form.Control value={username} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Alamat :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={alamat} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Telepon :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={telepon} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Tanggal Lahir :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={tanggalLahir} disabled readOnly />
                   </Col>
                 </Form.Group>
               </Col>
@@ -162,5 +216,5 @@ const UbahProfilUser = () => {
 export default UbahProfilUser;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };

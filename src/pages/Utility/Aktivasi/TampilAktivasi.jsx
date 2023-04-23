@@ -9,7 +9,7 @@ import {
   SearchBar,
   Loader,
   usePagination,
-  ButtonModifier
+  ButtonModifier,
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { Box, ButtonGroup, Button, Pagination } from "@mui/material";
@@ -67,14 +67,14 @@ const TampilAktivasi = () => {
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
       format: "a4",
-      unit: "px"
+      unit: "px",
     });
 
     doc.html(reportTemplateRef.current, {
       async callback(doc) {
         await doc.save("Aktivasi");
       },
-      html2canvas: { scale: 0.5 }
+      html2canvas: { scale: 0.5 },
     });
   };
 
@@ -88,7 +88,7 @@ const TampilAktivasi = () => {
     try {
       const response = await axios.post(`${tempUrl}/aktivasis`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setAktivasis(response.data);
     } catch (err) {
@@ -101,16 +101,16 @@ const TampilAktivasi = () => {
     if (id) {
       const response = await axios.post(`${tempUrl}/aktivasis/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setKodeAktivasi(response.data.kodeAktivasi);
       let newTanggal = new Date(response.data.masaAktif);
       let tempTanggal = `${newTanggal.getDate().toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${(newTanggal.getMonth() + 1).toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${newTanggal.getFullYear()}`;
       setMasaAktif(tempTanggal);
       setUserId(response.data.user.username);
@@ -123,7 +123,7 @@ const TampilAktivasi = () => {
     try {
       await axios.post(`${tempUrl}/deleteAktivasi/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       getAktivasis();
       setKodeAktivasi("");
@@ -139,7 +139,7 @@ const TampilAktivasi = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -191,11 +191,14 @@ const TampilAktivasi = () => {
             </Button>
           </div>
           <div ref={reportTemplateRef} style={cetakContainer}>
-            <p style={cetakCenter}>Aktivasi</p>
-            <p style={cetakCenter}>No Aktivasi: {kodeAktivasi}</p>
-            <p style={cetakCenter}>Masa Aktif: {masaAktif}</p>
-            <p style={cetakCenter}>Jml. Rp: {jumlahAktivasi}</p>
-            <p style={cetakCenter}>Member: {userId}</p>
+            <p>GoFit</p>
+            <p>Jl. Centralpark No. 10 Yogyakarta</p>
+            <p>Aktivasi</p>
+            <p>No Aktivasi: {kodeAktivasi}</p>
+            <p>Masa Aktif: {masaAktif}</p>
+            <p>Jml. Rp: {jumlahAktivasi.toLocaleString()}</p>
+            <p>Member: {userId}</p>
+            <p>Kasir: {user.username}</p>
           </div>
         </>
       )}
@@ -299,19 +302,19 @@ const buttonModifierContainer = {
   mt: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const searchBarContainer = {
   pt: 6,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const tableContainer = {
   pt: 4,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const downloadButtons = {
@@ -319,17 +322,17 @@ const downloadButtons = {
   mb: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const cetakContainer = {
   width: "300px",
   fontSize: "16px",
-  letterSpacing: "0.01px"
+  letterSpacing: "0.01px",
 };
 
 const cetakCenter = {
   textAlign: "center",
   marginTop: "0px",
-  marginBottom: "0px"
+  marginBottom: "0px",
 };

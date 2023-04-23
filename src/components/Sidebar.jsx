@@ -8,7 +8,7 @@ import {
   SubMenu,
   SidebarHeader,
   SidebarFooter,
-  SidebarContent
+  SidebarContent,
 } from "react-pro-sidebar";
 import {
   FaAngleDoubleLeft,
@@ -19,7 +19,7 @@ import {
   FaDochub,
   FaFileInvoiceDollar,
   FaClipboardList,
-  FaExchangeAlt
+  FaExchangeAlt,
 } from "react-icons/fa";
 
 const Sidebar = ({
@@ -27,7 +27,7 @@ const Sidebar = ({
   collapsed,
   toggled,
   handleToggleSidebar,
-  handleCollapsedChange
+  handleCollapsedChange,
 }) => {
   const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ const Sidebar = ({
                   textTransform: "uppercase",
                   fontWeight: "bold",
                   fontSize: 15,
-                  letterSpacing: "1px"
+                  letterSpacing: "1px",
                 }}
               >
                 Gofit
@@ -144,6 +144,11 @@ const Sidebar = ({
             {user.akses.deposit === true && (
               <MenuItem>
                 Deposit <NavLink to="/deposit" />
+              </MenuItem>
+            )}
+            {user.akses.depositKelas === true && (
+              <MenuItem>
+                Deposit Kelas <NavLink to="/depositKelas" />
               </MenuItem>
             )}
           </SubMenu>

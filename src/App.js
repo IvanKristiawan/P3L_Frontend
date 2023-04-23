@@ -22,6 +22,8 @@ import {
   TambahAktivasi,
   TampilDeposit,
   TambahDeposit,
+  TampilDepositKelas,
+  TambahDepositKelas,
   TampilBookingGym,
   TambahBookingGym,
   TampilBookingKelas,
@@ -31,7 +33,7 @@ import {
   LaporanKelas,
   LaporanGym,
   LaporanInstruktur,
-  LaporanPendapatan
+  LaporanPendapatan,
 } from "./pages/index";
 
 const App = () => {
@@ -172,6 +174,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.deposit) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const DEPOSITKELASRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.depositKelas) {
       return children;
     }
 
@@ -371,6 +383,31 @@ const App = () => {
               <DEPOSITRoute>
                 <TambahDeposit />
               </DEPOSITRoute>
+            }
+          />
+          {/*  Deposit Kelas */}
+          <Route
+            path="/depositKelas"
+            element={
+              <DEPOSITKELASRoute>
+                <TampilDepositKelas />
+              </DEPOSITKELASRoute>
+            }
+          />
+          <Route
+            path="/depositKelas/:id"
+            element={
+              <DEPOSITKELASRoute>
+                <TampilDepositKelas />
+              </DEPOSITKELASRoute>
+            }
+          />
+          <Route
+            path="/depositKelas/tambahDepositKelas"
+            element={
+              <DEPOSITKELASRoute>
+                <TambahDepositKelas />
+              </DEPOSITKELASRoute>
             }
           />
           {/*  Booking Gym */}

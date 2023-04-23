@@ -9,7 +9,7 @@ import {
   SearchBar,
   Loader,
   usePagination,
-  ButtonModifier
+  ButtonModifier,
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { Box, ButtonGroup, Button, Pagination } from "@mui/material";
@@ -29,6 +29,7 @@ const TampilDeposit = () => {
   const [jumlahDeposit, setJumlahDeposit] = useState("");
   const [userId, setUserId] = useState("");
   const [memberId, setMemberId] = useState("");
+  const [deposit, setDeposit] = useState("");
   const [previewPdf, setPreviewPdf] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,14 +67,14 @@ const TampilDeposit = () => {
   const handleGeneratePdf = () => {
     const doc = new jsPDF({
       format: "a4",
-      unit: "px"
+      unit: "px",
     });
 
     doc.html(reportTemplateRef.current, {
       async callback(doc) {
         await doc.save("Deposit");
       },
-      html2canvas: { scale: 0.5 }
+      html2canvas: { scale: 0.5 },
     });
   };
 
@@ -87,7 +88,7 @@ const TampilDeposit = () => {
     try {
       const response = await axios.post(`${tempUrl}/deposits`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setDeposits(response.data);
     } catch (err) {
@@ -100,12 +101,20 @@ const TampilDeposit = () => {
     if (id) {
       const response = await axios.post(`${tempUrl}/deposits/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setNoDeposit(response.data.noDeposit);
       setJumlahDeposit(response.data.jumlahDeposit);
       setUserId(response.data.user.username);
       setMemberId(response.data.user.id);
+      const findUser = await axios.post(
+        `${tempUrl}/findUser/${response.data.user.id}`,
+        {
+          _id: user.id,
+          token: user.token,
+        }
+      );
+      setDeposit(findUser.data.deposit);
     }
   };
 
@@ -115,7 +124,7 @@ const TampilDeposit = () => {
       await axios.post(`${tempUrl}/deleteDeposit/${id}`, {
         userId: memberId,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       getDeposits();
       setNoDeposit("");
@@ -130,7 +139,7 @@ const TampilDeposit = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -182,10 +191,15 @@ const TampilDeposit = () => {
             </Button>
           </div>
           <div ref={reportTemplateRef} style={cetakContainer}>
-            <p style={cetakCenter}>Deposit</p>
-            <p style={cetakCenter}>No Deposit: {noDeposit}</p>
-            <p style={cetakCenter}>Jumlah: {jumlahDeposit.toLocaleString()}</p>
-            <p style={cetakCenter}>Member: {userId}</p>
+            <p>GoFit</p>
+            <p>Jl. Centralpark No. 10 Yogyakarta</p>
+            <p>Deposit</p>
+            <p>No Deposit: {noDeposit}</p>
+            <p>Deposit: {jumlahDeposit.toLocaleString()}</p>
+            <p>Sisa Deposit: {deposit.toLocaleString()}</p>
+            <p>Total Deposit: {(jumlahDeposit + deposit).toLocaleString()}</p>
+            <p>Member: {userId}</p>
+            <p>Kasir: {user.username}</p>
           </div>
         </>
       )}
@@ -274,19 +288,19 @@ const buttonModifierContainer = {
   mt: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const searchBarContainer = {
   pt: 6,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const tableContainer = {
   pt: 4,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const downloadButtons = {
@@ -294,17 +308,17 @@ const downloadButtons = {
   mb: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const cetakContainer = {
   width: "300px",
   fontSize: "16px",
-  letterSpacing: "0.01px"
+  letterSpacing: "0.01px",
 };
 
 const cetakCenter = {
   textAlign: "center",
   marginTop: "0px",
-  marginBottom: "0px"
+  marginBottom: "0px",
 };

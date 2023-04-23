@@ -41,7 +41,7 @@ const TambahAktivasi = () => {
     setUserId("");
     const response = await axios.post(`${tempUrl}/usersMember`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setMembers(response.data);
     setUserId(response.data[0].id);
@@ -50,7 +50,7 @@ const TambahAktivasi = () => {
   const getNextKodeAktivasi = async (kodeUnit) => {
     const response = await axios.post(`${tempUrl}/aktivasiNextKode`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setKodeAktivasi(response.data);
   };
@@ -65,9 +65,10 @@ const TambahAktivasi = () => {
         setLoading(true);
         await axios.post(`${tempUrl}/saveAktivasi`, {
           masaAktif,
+          jumlahAktivasi,
           userId,
           _id: user.id,
-          token: user.token
+          token: user.token,
         });
         setLoading(false);
         navigate("/aktivasi");
@@ -87,7 +88,7 @@ const TambahAktivasi = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   return (
@@ -228,9 +229,9 @@ const TambahAktivasi = () => {
 export default TambahAktivasi;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };

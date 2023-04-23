@@ -9,7 +9,7 @@ import {
   SearchBar,
   Loader,
   usePagination,
-  ButtonModifier
+  ButtonModifier,
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import {
@@ -19,7 +19,7 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  FormLabel
+  FormLabel,
 } from "@mui/material";
 
 const DaftarUser = () => {
@@ -29,7 +29,11 @@ const DaftarUser = () => {
   const { screenSize } = useStateContext();
 
   const [isFetchError, setIsFetchError] = useState(false);
+  const [noMember, setNoMember] = useState("");
   const [username, setUsername] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [telepon, setTelepon] = useState("");
+  const [tanggalLahir, setTanggalLahir] = useState("");
   const [tipeUser, setTipeUser] = useState("");
   const [deposit, setDeposit] = useState("");
   const [grouping, setGrouping] = useState("SEMUA");
@@ -52,6 +56,7 @@ const DaftarUser = () => {
   const [daftarUser, setDaftarUser] = useState(false);
   const [aktivasi, setAktivasi] = useState(false);
   const [depositAkses, setDepositAkses] = useState(false);
+  const [depositKelas, setDepositKelas] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUser] = useState([]);
@@ -109,7 +114,7 @@ const DaftarUser = () => {
       const response = await axios.post(`${tempUrl}/users`, {
         tipeUser: user.tipeUser,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setUser(response.data);
     } catch (err) {
@@ -122,7 +127,7 @@ const DaftarUser = () => {
       const response = await axios.post(`${tempUrl}/usersManager`, {
         tipeUser: user.tipeUser,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setUser(response.data);
     } catch (err) {
@@ -135,7 +140,7 @@ const DaftarUser = () => {
       const response = await axios.post(`${tempUrl}/usersAdmin`, {
         tipeUser: user.tipeUser,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setUser(response.data);
     } catch (err) {
@@ -148,7 +153,7 @@ const DaftarUser = () => {
       const response = await axios.post(`${tempUrl}/usersInstruktur`, {
         tipeUser: user.tipeUser,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setUser(response.data);
     } catch (err) {
@@ -161,7 +166,7 @@ const DaftarUser = () => {
       const response = await axios.post(`${tempUrl}/usersMember`, {
         tipeUser: user.tipeUser,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setUser(response.data);
     } catch (err) {
@@ -173,9 +178,13 @@ const DaftarUser = () => {
     if (id) {
       const response = await axios.post(`${tempUrl}/findUser/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
+      setNoMember(response.data.noMember);
       setUsername(response.data.username);
+      setAlamat(response.data.alamat);
+      setTelepon(response.data.telepon);
+      setTanggalLahir(response.data.tanggalLahir);
       setTipeUser(response.data.tipeUser);
       setDeposit(response.data.deposit);
 
@@ -197,6 +206,7 @@ const DaftarUser = () => {
       setDaftarUser(response.data.akses.daftarUser);
       setAktivasi(response.data.akses.aktivasi);
       setDepositAkses(response.data.akses.deposit);
+      setDepositKelas(response.data.akses.depositKelas);
     }
   };
 
@@ -206,7 +216,7 @@ const DaftarUser = () => {
       await axios.post(`${tempUrl}/users/deleteUser/${id}`, {
         tipeUser: user.tipeUser,
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       getUsers();
 
@@ -220,7 +230,7 @@ const DaftarUser = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -282,6 +292,24 @@ const DaftarUser = () => {
         <Container>
           <hr />
           <Form>
+            {tipeUser === "MEMBER" && (
+              <Row>
+                <Col sm={6}>
+                  <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formPlaintextPassword"
+                  >
+                    <Form.Label column sm="3" style={textRight}>
+                      No. Member :
+                    </Form.Label>
+                    <Col sm="9">
+                      <Form.Control value={noMember} disabled readOnly />
+                    </Col>
+                  </Form.Group>
+                </Col>
+              </Row>
+            )}
             <Row>
               <Col sm={6}>
                 <Form.Group
@@ -294,6 +322,54 @@ const DaftarUser = () => {
                   </Form.Label>
                   <Col sm="9">
                     <Form.Control value={username} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Alamat :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={alamat} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Telepon :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={telepon} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Tanggal Lahir :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={tanggalLahir} disabled readOnly />
                   </Col>
                 </Form.Group>
               </Col>
@@ -426,6 +502,12 @@ const DaftarUser = () => {
                       disabled
                       checked={depositAkses}
                     />
+                    <Form.Check
+                      type="checkbox"
+                      label="Deposit Kelas"
+                      disabled
+                      checked={depositKelas}
+                    />
                   </Form>
                 </Box>
               </Box>
@@ -459,7 +541,7 @@ const buttonModifierContainer = {
   mt: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const showDataContainer = {
@@ -467,8 +549,8 @@ const showDataContainer = {
   display: "flex",
   flexDirection: {
     xs: "column",
-    sm: "row"
-  }
+    sm: "row",
+  },
 };
 
 const showDataWrapper = {
@@ -476,37 +558,37 @@ const showDataWrapper = {
   flex: 1,
   flexDirection: "column",
   maxWidth: {
-    md: "40vw"
-  }
+    md: "40vw",
+  },
 };
 
 const secondWrapper = {
   marginLeft: {
-    sm: 4
+    sm: 4,
   },
   marginTop: {
     sm: 0,
-    xs: 2
-  }
+    xs: 2,
+  },
 };
 
 const checkboxTitle = {
-  marginBottom: 0
+  marginBottom: 0,
 };
 
 const secondCheckboxTitle = {
   marginTop: 15,
-  marginBottom: 0
+  marginBottom: 0,
 };
 
 const searchBarContainer = {
   pt: 6,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const tableContainer = {
   pt: 4,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };

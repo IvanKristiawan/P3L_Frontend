@@ -47,8 +47,6 @@ const LaporanPendapatan = () => {
         _id: user.id,
         token: user.token
       });
-      alert(lapPendapatans.data);
-      alert(lapPendapatans);
       setLapPendapatansData(lapPendapatans.data);
       setPreviewPdf(!previewPdf);
     }
