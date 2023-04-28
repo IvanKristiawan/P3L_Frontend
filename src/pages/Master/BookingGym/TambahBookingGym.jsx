@@ -37,7 +37,7 @@ const TambahBookingGym = () => {
   const getNextKodeBookingGym = async (kodeUnit) => {
     const response = await axios.post(`${tempUrl}/bookingGymNextKode`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setNoBooking(response.data);
   };
@@ -46,7 +46,7 @@ const TambahBookingGym = () => {
     setJadwalGymId("");
     const response = await axios.post(`${tempUrl}/jadwalGymsMasihAda`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setJadwalGyms(response.data);
     setJadwalGymId(response.data[0].id);
@@ -64,7 +64,7 @@ const TambahBookingGym = () => {
           userId,
           jadwalGymId,
           _id: user.id,
-          token: user.token
+          token: user.token,
         });
         setLoading(false);
         navigate("/bookingGym");
@@ -84,7 +84,7 @@ const TambahBookingGym = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   return (
@@ -155,7 +155,8 @@ const TambahBookingGym = () => {
                       {jadwalGyms.map((jadwalGym, index) => (
                         <option value={jadwalGym.id}>
                           {jadwalGym.tanggal} | {jadwalGym.dariJam}-
-                          {jadwalGym.sampaiJam}
+                          {jadwalGym.sampaiJam} |{" "}
+                          {jadwalGym.jumlahMemberMax - jadwalGym.jumlahMember}
                         </option>
                       ))}
                     </Form.Select>
@@ -197,9 +198,9 @@ const TambahBookingGym = () => {
 export default TambahBookingGym;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };

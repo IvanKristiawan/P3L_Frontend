@@ -173,6 +173,25 @@ const ProfilUser = () => {
               </Form.Group>
             </Col>
           </Row>
+
+          {user.tipeUser === "INSTRUKTUR" && (
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Jml. Terlambat :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control value={user.jmlTerlambat} disabled readOnly />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+          )}
           <Row>
             <Col sm={6}>
               <Form.Group

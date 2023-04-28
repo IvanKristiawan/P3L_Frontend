@@ -37,7 +37,7 @@ const TambahBookingKelas = () => {
   const getNextKodeBookingKelas = async (kodeUnit) => {
     const response = await axios.post(`${tempUrl}/bookingKelasNextKode`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setNoBooking(response.data);
   };
@@ -46,7 +46,7 @@ const TambahBookingKelas = () => {
     setJadwalInstrukturId("");
     const response = await axios.post(`${tempUrl}/jadwalInstruktursMasihAda`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setJadwalInstruktur(response.data);
     setJadwalInstrukturId(response.data[0].id);
@@ -59,13 +59,13 @@ const TambahBookingKelas = () => {
     if (form.checkValidity()) {
       const findUser = await axios.post(`${tempUrl}/findUser/${userId}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       const findJadwalInstruktur = await axios.post(
         `${tempUrl}/jadwalInstrukturs/${jadwalInstrukturId}`,
         {
           _id: user.id,
-          token: user.token
+          token: user.token,
         }
       );
       if (findUser.data.deposit > findJadwalInstruktur.data.harga) {
@@ -75,7 +75,7 @@ const TambahBookingKelas = () => {
             userId,
             jadwalInstrukturId,
             _id: user.id,
-            token: user.token
+            token: user.token,
           });
           setLoading(false);
           navigate("/bookingKelas");
@@ -99,7 +99,7 @@ const TambahBookingKelas = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   return (
@@ -170,7 +170,8 @@ const TambahBookingKelas = () => {
                       {jadwalInstruktur.map((jadwalGym, index) => (
                         <option value={jadwalGym.id}>
                           {jadwalGym.namaKelas} | {jadwalGym.tanggal} |{" "}
-                          {jadwalGym.dariJam}-{jadwalGym.sampaiJam}
+                          {jadwalGym.dariJam}-{jadwalGym.sampaiJam} |{" "}
+                          {jadwalGym.jumlahMemberMax - jadwalGym.jumlahMember}
                         </option>
                       ))}
                     </Form.Select>
@@ -212,9 +213,9 @@ const TambahBookingKelas = () => {
 export default TambahBookingKelas;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };
