@@ -9,7 +9,7 @@ import {
   SearchBar,
   Loader,
   usePagination,
-  ButtonModifier
+  ButtonModifier,
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import { Box, Pagination } from "@mui/material";
@@ -26,7 +26,6 @@ const TampilJadwalGym = () => {
   const [tanggal, setTanggal] = useState("");
   const [jumlahMember, setJumlahMember] = useState("");
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
-  const [harga, setHarga] = useState("");
   const [libur, setLibur] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +48,6 @@ const TampilJadwalGym = () => {
       val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.jumlahMember == searchTerm ||
       val.jumlahMemberMax == searchTerm ||
-      val.harga == searchTerm ||
       val.libur.toUpperCase().includes(searchTerm.toUpperCase())
     ) {
       return val;
@@ -75,7 +73,7 @@ const TampilJadwalGym = () => {
     try {
       const response = await axios.post(`${tempUrl}/jadwalGyms`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setJadwalGyms(response.data);
     } catch (err) {
@@ -88,22 +86,21 @@ const TampilJadwalGym = () => {
     if (id) {
       const response = await axios.post(`${tempUrl}/jadwalGyms/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setDariJam(response.data.dariJam);
       setSampaiJam(response.data.sampaiJam);
       let newTanggal = new Date(response.data.tanggal);
       let tempTanggal = `${newTanggal.getDate().toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${(newTanggal.getMonth() + 1).toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${newTanggal.getFullYear()}`;
       setTanggal(tempTanggal);
       setJumlahMember(response.data.jumlahMember);
       setJumlahMemberMax(response.data.jumlahMemberMax);
-      setHarga(response.data.harga);
       setLibur(response.data.libur);
     }
   };
@@ -113,7 +110,7 @@ const TampilJadwalGym = () => {
     try {
       await axios.post(`${tempUrl}/deleteJadwalGym/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       getJadwalGyms();
       setDariJam("");
@@ -132,7 +129,7 @@ const TampilJadwalGym = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -249,26 +246,6 @@ const TampilJadwalGym = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
-                    Harga :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control
-                      value={harga.toLocaleString()}
-                      disabled
-                      readOnly
-                    />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
                     Libur :
                   </Form.Label>
                   <Col sm="9">
@@ -313,17 +290,17 @@ const buttonModifierContainer = {
   mt: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const searchBarContainer = {
   pt: 6,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const tableContainer = {
   pt: 4,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };

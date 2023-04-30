@@ -277,12 +277,6 @@ export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
             >
               Jml. Max
             </TableCell>
-            <TableCell
-              sx={{ fontWeight: "bold" }}
-              className={classes.tableRightBorder}
-            >
-              Harga
-            </TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Libur</TableCell>
           </TableRow>
         </TableHead>
@@ -299,7 +293,6 @@ export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
                 val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
                 val.jumlahMember == searchTerm ||
                 val.jumlahMemberMax == searchTerm ||
-                val.harga == searchTerm ||
                 val.libur.toUpperCase().includes(searchTerm.toUpperCase())
               ) {
                 return val;
@@ -324,7 +317,6 @@ export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
                 <TableCell>{user.tanggal}</TableCell>
                 <TableCell>{user.jumlahMember.toLocaleString()}</TableCell>
                 <TableCell>{user.jumlahMemberMax.toLocaleString()}</TableCell>
-                <TableCell>{user.harga.toLocaleString()}</TableCell>
                 <TableCell>{user.libur}</TableCell>
               </TableRow>
             ))}
@@ -581,13 +573,7 @@ export function ShowTableBookingGym({ currentPosts, searchTerm }) {
             >
               Member
             </TableCell>
-            <TableCell
-              sx={{ fontWeight: "bold" }}
-              className={classes.tableRightBorder}
-            >
-              Absensi
-            </TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Harga</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Absensi</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -609,8 +595,7 @@ export function ShowTableBookingGym({ currentPosts, searchTerm }) {
                 val.user.username
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase()) ||
-                val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
-                val.jadwalgym.harga == searchTerm
+                val.absensi.toUpperCase().includes(searchTerm.toUpperCase())
               ) {
                 return val;
               }
@@ -635,7 +620,6 @@ export function ShowTableBookingGym({ currentPosts, searchTerm }) {
                 <TableCell>{user.tanggal}</TableCell>
                 <TableCell>{user.user.username}</TableCell>
                 <TableCell>{user.absensi}</TableCell>
-                <TableCell>{user.jadwalgym.harga.toLocaleString()}</TableCell>
               </TableRow>
             ))}
         </TableBody>

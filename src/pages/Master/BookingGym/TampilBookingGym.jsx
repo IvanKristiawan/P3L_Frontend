@@ -33,7 +33,6 @@ const TampilBookingGym = () => {
   const [tanggalDate, setTanggalDate] = useState("");
   const [member, setMember] = useState("");
   const [absensi, setAbsensi] = useState("");
-  const [harga, setHarga] = useState("");
   const [masaAktif, setMasaAktif] = useState("");
   const [previewPdf, setPreviewPdf] = useState(false);
 
@@ -59,8 +58,7 @@ const TampilBookingGym = () => {
         .includes(searchTerm.toUpperCase()) ||
       val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.user.username.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.absensi.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.jadwalgym.harga == searchTerm
+      val.absensi.toUpperCase().includes(searchTerm.toUpperCase())
     ) {
       return val;
     }
@@ -145,7 +143,6 @@ const TampilBookingGym = () => {
       setTanggalDate(response.data.jadwalgym.tanggal);
       setMember(response.data.user.username);
       setAbsensi(response.data.absensi);
-      setHarga(response.data.jadwalgym.harga);
 
       const aktivasiUser = await axios.post(`${tempUrl}/aktivasisByUser`, {
         userId: response.data.user.id,
@@ -180,7 +177,6 @@ const TampilBookingGym = () => {
         setTanggalDate("");
         setMember("");
         setAbsensi("");
-        setHarga("");
         navigate("/bookingGym");
       } catch (error) {
         if (error.response.data.message.includes("foreign key")) {
@@ -265,7 +261,6 @@ const TampilBookingGym = () => {
             <p>No. Struk: {noBooking}</p>
             <p>Tanggal: {tanggal}</p>
             <p>Member: {member}</p>
-            <p>Harga: {harga.toLocaleString()}</p>
             <p>
               Slot Waktu: {dariJam}-{sampaiJam}
             </p>
@@ -369,26 +364,6 @@ const TampilBookingGym = () => {
                   <Col sm="9">
                     <Form.Control
                       value={absensi === true ? "DATANG" : "ABSEN"}
-                      disabled
-                      readOnly
-                    />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
-                    Harga :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control
-                      value={harga.toLocaleString()}
                       disabled
                       readOnly
                     />

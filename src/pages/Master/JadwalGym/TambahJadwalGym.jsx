@@ -19,7 +19,6 @@ const TambahJadwalGym = () => {
   const [sampaiJam, setSampaiJam] = useState("");
   const [tanggal, setTanggal] = useState(new Date());
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
-  const [harga, setHarga] = useState("");
   const [libur, setLibur] = useState("");
 
   const [error, setError] = useState(false);
@@ -33,12 +32,6 @@ const TambahJadwalGym = () => {
     setOpen(false);
   };
 
-  function addDays(date, days) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
-
   const saveJadwalGym = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -47,20 +40,15 @@ const TambahJadwalGym = () => {
       setLoading(true);
       try {
         setLoading(true);
-        let tempDate = tanggal;
-        for (let i = 0; i < 7; i++) {
-          await axios.post(`${tempUrl}/saveJadwalGym`, {
-            dariJam,
-            sampaiJam,
-            tanggal: tempDate,
-            jumlahMemberMax,
-            harga,
-            libur,
-            _id: user.id,
-            token: user.token
-          });
-          tempDate = addDays(tempDate, 1);
-        }
+        await axios.post(`${tempUrl}/saveJadwalGym`, {
+          dariJam,
+          sampaiJam,
+          tanggal,
+          jumlahMemberMax,
+          libur,
+          _id: user.id,
+          token: user.token,
+        });
         setLoading(false);
         navigate("/jadwalGym");
       } catch (error) {
@@ -79,7 +67,7 @@ const TambahJadwalGym = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   return (
@@ -185,26 +173,6 @@ const TambahJadwalGym = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
-                    Harga :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control
-                      required
-                      value={harga}
-                      onChange={(e) => setHarga(e.target.value.toUpperCase())}
-                    />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
                     Libur :
                   </Form.Label>
                   <Col sm="9">
@@ -256,9 +224,9 @@ const TambahJadwalGym = () => {
 export default TambahJadwalGym;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };

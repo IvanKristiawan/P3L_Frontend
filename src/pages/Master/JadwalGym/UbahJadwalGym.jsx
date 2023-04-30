@@ -19,7 +19,6 @@ const UbahJadwalGym = () => {
   const [sampaiJam, setSampaiJam] = useState("");
   const [inputTanggal, setInputTanggal] = useState(new Date());
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
-  const [harga, setHarga] = useState("");
   const [libur, setLibur] = useState("");
 
   const [error, setError] = useState(false);
@@ -42,13 +41,12 @@ const UbahJadwalGym = () => {
     setLoading(true);
     const picked = await axios.post(`${tempUrl}/jadwalGyms/${id}`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setInputTanggal(new Date(picked.data.tanggal));
     setDariJam(picked.data.dariJam);
     setSampaiJam(picked.data.sampaiJam);
     setJumlahMemberMax(picked.data.jumlahMemberMax);
-    setHarga(picked.data.harga);
     setLibur(picked.data.libur);
     setLoading(false);
   };
@@ -66,10 +64,9 @@ const UbahJadwalGym = () => {
           sampaiJam,
           tanggal: inputTanggal,
           jumlahMemberMax,
-          harga,
           libur,
           _id: user.id,
-          token: user.token
+          token: user.token,
         });
         setLoading(false);
         navigate(`/jadwalGym/${id}`);
@@ -89,7 +86,7 @@ const UbahJadwalGym = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   return (
@@ -195,26 +192,6 @@ const UbahJadwalGym = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
-                    Harga :
-                  </Form.Label>
-                  <Col sm="9">
-                    <Form.Control
-                      required
-                      value={harga}
-                      onChange={(e) => setHarga(e.target.value.toUpperCase())}
-                    />
-                  </Col>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={6}>
-                <Form.Group
-                  as={Row}
-                  className="mb-3"
-                  controlId="formPlaintextPassword"
-                >
-                  <Form.Label column sm="3" style={textRight}>
                     Instruktur :
                   </Form.Label>
                   <Col sm="9">
@@ -266,9 +243,9 @@ const UbahJadwalGym = () => {
 export default UbahJadwalGym;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };
