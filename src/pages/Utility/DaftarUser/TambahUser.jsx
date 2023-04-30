@@ -34,6 +34,7 @@ const TambahUser = () => {
   const [bookingGym, setBookingGym] = useState(false);
   const [bookingKelas, setBookingKelas] = useState(false);
   const [jadwalGym, setJadwalGym] = useState(false);
+  const [kelas, setKelas] = useState(false);
   const [jadwalInstruktur, setJadwalInstruktur] = useState(false);
   const [izinInstruktur, setIzinInstruktur] = useState(false);
 
@@ -101,6 +102,7 @@ const TambahUser = () => {
               bookingGym,
               bookingKelas,
               jadwalGym,
+              kelas,
               jadwalInstruktur,
               izinInstruktur,
               laporanGym,
@@ -318,6 +320,12 @@ const TambahUser = () => {
                       label="Jadwal Gym"
                       checked={jadwalGym}
                       onChange={() => setJadwalGym(!jadwalGym)}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Kelas"
+                      checked={kelas}
+                      onChange={() => setKelas(!kelas)}
                     />
                     <Form.Check
                       type="checkbox"

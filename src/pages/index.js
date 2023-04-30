@@ -14,6 +14,10 @@ export { default as UbahJadwalInstruktur } from "./Master/JadwalInstruktur/UbahJ
 export { default as TampilJadwalGym } from "./Master/JadwalGym/TampilJadwalGym";
 export { default as TambahJadwalGym } from "./Master/JadwalGym/TambahJadwalGym";
 export { default as UbahJadwalGym } from "./Master/JadwalGym/UbahJadwalGym";
+// Kelas Page
+export { default as TampilKelas } from "./Master/Kelas/TampilKelas";
+export { default as TambahKelas } from "./Master/Kelas/TambahKelas";
+export { default as UbahKelas } from "./Master/Kelas/UbahKelas";
 // Booking Gym Page
 export { default as TampilBookingGym } from "./Master/BookingGym/TampilBookingGym";
 export { default as TambahBookingGym } from "./Master/BookingGym/TambahBookingGym";

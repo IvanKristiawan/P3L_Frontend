@@ -9,7 +9,7 @@ import {
   SearchBar,
   Loader,
   usePagination,
-  ButtonModifier
+  ButtonModifier,
 } from "../../../components";
 import { Container, Form, Row, Col } from "react-bootstrap";
 import {
@@ -19,7 +19,7 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  FormLabel
+  FormLabel,
 } from "@mui/material";
 
 const TampilJadwalInstruktur = () => {
@@ -96,7 +96,7 @@ const TampilJadwalInstruktur = () => {
     try {
       const response = await axios.post(`${tempUrl}/jadwalInstrukturs`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setJadwalInstrukturs(response.data);
     } catch (err) {
@@ -109,8 +109,9 @@ const TampilJadwalInstruktur = () => {
     setLoading(true);
     try {
       const response = await axios.post(`${tempUrl}/kelasHariIni`, {
+        hariIni: new Date(),
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setJadwalInstrukturs(response.data);
     } catch (err) {
@@ -123,7 +124,7 @@ const TampilJadwalInstruktur = () => {
     if (id) {
       const response = await axios.post(`${tempUrl}/jadwalInstrukturs/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       setNamaKelas(response.data.namaKelas);
       setDariJam(response.data.dariJam);
@@ -131,10 +132,10 @@ const TampilJadwalInstruktur = () => {
       let newTanggal = new Date(response.data.tanggal);
       let tempTanggal = `${newTanggal.getDate().toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${(newTanggal.getMonth() + 1).toLocaleString("en-US", {
         minimumIntegerDigits: 2,
-        useGrouping: false
+        useGrouping: false,
       })}-${newTanggal.getFullYear()}`;
       setTanggal(tempTanggal);
       setJumlahMember(response.data.jumlahMember);
@@ -150,7 +151,7 @@ const TampilJadwalInstruktur = () => {
     try {
       await axios.post(`${tempUrl}/deleteJadwalInstruktur/${id}`, {
         _id: user.id,
-        token: user.token
+        token: user.token,
       });
       getJadwalInstrukturs();
       setNamaKelas("");
@@ -169,7 +170,7 @@ const TampilJadwalInstruktur = () => {
   };
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   if (loading) {
@@ -405,17 +406,17 @@ const buttonModifierContainer = {
   mt: 4,
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const searchBarContainer = {
   pt: 6,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };
 
 const tableContainer = {
   pt: 4,
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 };

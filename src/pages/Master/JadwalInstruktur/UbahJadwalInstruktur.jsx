@@ -21,7 +21,8 @@ const UbahJadwalInstruktur = () => {
   const [inputTanggal, setInputTanggal] = useState(new Date());
   const [jumlahMemberMax, setJumlahMemberMax] = useState("");
   const [harga, setHarga] = useState("");
-  const [waktuTerlambat, setWaktuTerlambat] = useState("");
+  const [waktuTerlambat, setWaktuTerlambat] = useState("0");
+  const [libur, setLibur] = useState(false);
   const [userId, setUserId] = useState("");
 
   const [instrukturs, setInstrukturs] = useState([]);
@@ -46,7 +47,7 @@ const UbahJadwalInstruktur = () => {
     setUserId("");
     const response = await axios.post(`${tempUrl}/usersInstruktur`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setInstrukturs(response.data);
     setUserId(response.data[0].id);
@@ -56,7 +57,7 @@ const UbahJadwalInstruktur = () => {
     setLoading(true);
     const picked = await axios.post(`${tempUrl}/jadwalInstrukturs/${id}`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setNamaKelas(picked.data.namaKelas);
     setInputTanggal(new Date(picked.data.tanggal));
@@ -64,6 +65,7 @@ const UbahJadwalInstruktur = () => {
     setSampaiJam(picked.data.sampaiJam);
     setJumlahMemberMax(picked.data.jumlahMemberMax);
     setHarga(picked.data.harga);
+    setLibur(picked.data.libur);
     setLoading(false);
   };
 
@@ -75,6 +77,10 @@ const UbahJadwalInstruktur = () => {
       setLoading(true);
       try {
         setLoading(true);
+        let tempLibur = false;
+        if (libur == "true") {
+          tempLibur = true;
+        }
         await axios.post(`${tempUrl}/updateJadwalInstruktur/${id}`, {
           namaKelas,
           dariJam,
@@ -83,10 +89,11 @@ const UbahJadwalInstruktur = () => {
           jumlahMemberMax,
           harga,
           waktuTerlambat,
+          libur: tempLibur,
           userId,
           userIdUpdate: user.id,
           _id: user.id,
-          token: user.token
+          token: user.token,
         });
         setLoading(false);
         navigate(`/jadwalInstruktur/${id}`);
@@ -106,7 +113,7 @@ const UbahJadwalInstruktur = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   return (
@@ -282,6 +289,31 @@ const UbahJadwalInstruktur = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
+                    Libur :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Select
+                      required
+                      value={libur}
+                      onChange={(e) => {
+                        setLibur(e.target.value);
+                      }}
+                    >
+                      <option value={false}>MASUK</option>
+                      <option value={true}>LIBUR</option>
+                    </Form.Select>
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
                     Instruktur :
                   </Form.Label>
                   <Col sm="9">
@@ -336,9 +368,9 @@ const UbahJadwalInstruktur = () => {
 export default UbahJadwalInstruktur;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };

@@ -42,6 +42,7 @@ const DaftarUser = () => {
   const [bookingGym, setBookingGym] = useState(false);
   const [bookingKelas, setBookingKelas] = useState(false);
   const [jadwalGym, setJadwalGym] = useState(false);
+  const [kelas, setKelas] = useState(false);
   const [jadwalInstruktur, setJadwalInstruktur] = useState(false);
   const [izinInstruktur, setIzinInstruktur] = useState(false);
 
@@ -192,6 +193,7 @@ const DaftarUser = () => {
       setBookingGym(response.data.akses.bookingGym);
       setBookingKelas(response.data.akses.bookingKelas);
       setJadwalGym(response.data.akses.jadwalGym);
+      setKelas(response.data.akses.kelas);
       setJadwalInstruktur(response.data.akses.jadwalInstruktur);
       setIzinInstruktur(response.data.akses.izinInstruktur);
 
@@ -433,6 +435,12 @@ const DaftarUser = () => {
                       label="Jadwal Gym"
                       disabled
                       checked={jadwalGym}
+                    />
+                    <Form.Check
+                      type="checkbox"
+                      label="Kelas"
+                      disabled
+                      checked={kelas}
                     />
                     <Form.Check
                       type="checkbox"

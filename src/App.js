@@ -15,6 +15,9 @@ import {
   TampilJadwalInstruktur,
   TambahJadwalInstruktur,
   UbahJadwalInstruktur,
+  TampilKelas,
+  UbahKelas,
+  TambahKelas,
   TampilJadwalGym,
   TambahJadwalGym,
   UbahJadwalGym,
@@ -74,6 +77,16 @@ const App = () => {
     const { user } = useContext(AuthContext);
 
     if (user.akses.jadwalInstruktur) {
+      return children;
+    }
+
+    return <Navigate to="/unauthorized" />;
+  };
+
+  const KELASRoute = ({ children }) => {
+    const { user } = useContext(AuthContext);
+
+    if (user.akses.kelas) {
       return children;
     }
 
@@ -300,6 +313,39 @@ const App = () => {
               <JADWALINSTRUKTURRoute>
                 <TambahJadwalInstruktur />
               </JADWALINSTRUKTURRoute>
+            }
+          />
+          {/*  Kelas */}
+          <Route
+            path="/kelas"
+            element={
+              <KELASRoute>
+                <TampilKelas />
+              </KELASRoute>
+            }
+          />
+          <Route
+            path="/kelas/:id"
+            element={
+              <KELASRoute>
+                <TampilKelas />
+              </KELASRoute>
+            }
+          />
+          <Route
+            path="/kelas/:id/edit"
+            element={
+              <KELASRoute>
+                <UbahKelas />
+              </KELASRoute>
+            }
+          />
+          <Route
+            path="/kelas/tambahKelas"
+            element={
+              <KELASRoute>
+                <TambahKelas />
+              </KELASRoute>
             }
           />
           {/*  Jadwal Gym */}

@@ -82,6 +82,11 @@ const Sidebar = ({
                 Jadwal Gym <NavLink to="/jadwalGym" />
               </MenuItem>
             )}
+            {user.akses.kelas === true && (
+              <MenuItem>
+                Kelas <NavLink to="/kelas" />
+              </MenuItem>
+            )}
             {user.akses.jadwalInstruktur === true && (
               <MenuItem>
                 Jadwal Instruktur <NavLink to="/jadwalInstruktur" />

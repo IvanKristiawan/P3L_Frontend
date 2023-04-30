@@ -184,6 +184,61 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
   );
 }
 
+export function ShowTableKelas({ currentPosts, searchTerm }) {
+  let navigate = useNavigate();
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table aria-label="simple table">
+        <TableHead className={classes.root}>
+          <TableRow>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Nama
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Hari</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPosts
+            .filter((val) => {
+              if (searchTerm === "") {
+                return val;
+              } else if (
+                val.namaKelas
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.hari.toUpperCase().includes(searchTerm.toUpperCase())
+              ) {
+                return val;
+              }
+            })
+            .map((user, index) => (
+              <TableRow
+                key={user.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { bgcolor: Colors.grey300 },
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  navigate(`/kelas/${user.id}`);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.namaKelas}
+                </TableCell>
+                <TableCell>{user.hari}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
 export function ShowTableJadwalGym({ currentPosts, searchTerm }) {
   let navigate = useNavigate();
   const classes = useStyles();
