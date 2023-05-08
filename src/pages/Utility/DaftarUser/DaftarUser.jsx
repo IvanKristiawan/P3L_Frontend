@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { tempUrl, useStateContext } from "../../../contexts/ContextProvider";
-import { ShowTableUser } from "../../../components/ShowTable";
+import { ShowTableUser, ShowTableMember } from "../../../components/ShowTable";
 import { FetchErrorHandling } from "../../../components/FetchErrorHandling";
 import {
   SearchBar,
@@ -58,6 +58,7 @@ const DaftarUser = () => {
   const [aktivasi, setAktivasi] = useState(false);
   const [depositAkses, setDepositAkses] = useState(false);
   const [depositKelas, setDepositKelas] = useState(false);
+  const [isMember, setIsMember] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUser] = useState([]);
@@ -75,7 +76,12 @@ const DaftarUser = () => {
       return val;
     } else if (
       val.username.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.tipeUser.toUpperCase().includes(searchTerm.toUpperCase())
+      val.tipeUser.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.alamat.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.telepon.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.tanggalLahir.toUpperCase().includes(searchTerm.toUpperCase()) ||
+      val.deposit == searchTerm ||
+      val.depositKelas == searchTerm
     ) {
       return val;
     }
@@ -101,6 +107,8 @@ const DaftarUser = () => {
       getUsers();
     } else if (event.target.value === "MANAGER") {
       getUsersManager();
+    } else if (event.target.value === "KASIR") {
+      getUsersKasir();
     } else if (event.target.value === "ADMIN") {
       getUsersAdmin();
     } else if (event.target.value === "INSTRUKTUR") {
@@ -121,6 +129,7 @@ const DaftarUser = () => {
     } catch (err) {
       setIsFetchError(true);
     }
+    setIsMember(false);
   };
 
   const getUsersManager = async () => {
@@ -134,6 +143,21 @@ const DaftarUser = () => {
     } catch (err) {
       setIsFetchError(true);
     }
+    setIsMember(false);
+  };
+
+  const getUsersKasir = async () => {
+    try {
+      const response = await axios.post(`${tempUrl}/usersKasir`, {
+        tipeUser: user.tipeUser,
+        _id: user.id,
+        token: user.token,
+      });
+      setUser(response.data);
+    } catch (err) {
+      setIsFetchError(true);
+    }
+    setIsMember(false);
   };
 
   const getUsersAdmin = async () => {
@@ -147,6 +171,7 @@ const DaftarUser = () => {
     } catch (err) {
       setIsFetchError(true);
     }
+    setIsMember(false);
   };
 
   const getUsersInstruktur = async () => {
@@ -160,6 +185,7 @@ const DaftarUser = () => {
     } catch (err) {
       setIsFetchError(true);
     }
+    setIsMember(false);
   };
 
   const getUsersMember = async () => {
@@ -173,6 +199,7 @@ const DaftarUser = () => {
     } catch (err) {
       setIsFetchError(true);
     }
+    setIsMember(true);
   };
 
   const getUserById = async () => {
@@ -266,6 +293,7 @@ const DaftarUser = () => {
               control={<Radio />}
               label="Manager"
             />
+            <FormControlLabel value="KASIR" control={<Radio />} label="Kasir" />
             <FormControlLabel value="ADMIN" control={<Radio />} label="Admin" />
             <FormControlLabel
               value="INSTRUKTUR"
@@ -528,7 +556,14 @@ const DaftarUser = () => {
         <SearchBar setSearchTerm={setSearchTerm} />
       </Box>
       <Box sx={tableContainer}>
-        <ShowTableUser currentPosts={currentPosts} searchTerm={searchTerm} />
+        {isMember ? (
+          <ShowTableMember
+            currentPosts={currentPosts}
+            searchTerm={searchTerm}
+          />
+        ) : (
+          <ShowTableUser currentPosts={currentPosts} searchTerm={searchTerm} />
+        )}
       </Box>
       <Box sx={tableContainer}>
         <Pagination

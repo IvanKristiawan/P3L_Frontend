@@ -14,6 +14,7 @@ const TambahDeposit = () => {
   const [open, setOpen] = useState(false);
   const [validated, setValidated] = useState(false);
   const [noDeposit, setNoDeposit] = useState("");
+  const [sisaDeposit, setSisaDeposit] = useState("");
   const [jumlahDeposit, setJumlahDeposit] = useState("");
   const [userId, setUserId] = useState("");
 
@@ -34,11 +35,19 @@ const TambahDeposit = () => {
     getNextKodeDeposit();
   }, []);
 
+  const getMemberData = async (id) => {
+    const response = await axios.post(`${tempUrl}/users/${id}`, {
+      _id: user.id,
+      token: user.token,
+    });
+    setSisaDeposit(response.data.deposit);
+  };
+
   const getMembersData = async (kodeUnit) => {
     setUserId("");
     const response = await axios.post(`${tempUrl}/usersMember`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setMembers(response.data);
     setUserId(response.data[0].id);
@@ -47,7 +56,7 @@ const TambahDeposit = () => {
   const getNextKodeDeposit = async (kodeUnit) => {
     const response = await axios.post(`${tempUrl}/depositNextKode`, {
       _id: user.id,
-      token: user.token
+      token: user.token,
     });
     setNoDeposit(response.data);
   };
@@ -63,8 +72,9 @@ const TambahDeposit = () => {
         await axios.post(`${tempUrl}/saveDeposit`, {
           jumlahDeposit,
           userId,
+          sisaDeposit,
           _id: user.id,
-          token: user.token
+          token: user.token,
         });
         setLoading(false);
         navigate("/deposit");
@@ -84,7 +94,7 @@ const TambahDeposit = () => {
   }
 
   const textRight = {
-    textAlign: screenSize >= 650 && "right"
+    textAlign: screenSize >= 650 && "right",
   };
 
   return (
@@ -156,6 +166,7 @@ const TambahDeposit = () => {
                       value={userId}
                       onChange={(e) => {
                         setUserId(e.target.value);
+                        getMemberData(e.target.value);
                       }}
                     >
                       {members.map((instruktur, index) => (
@@ -202,9 +213,9 @@ const TambahDeposit = () => {
 export default TambahDeposit;
 
 const spacingTop = {
-  mt: 4
+  mt: 4,
 };
 
 const alertBox = {
-  width: "100%"
+  width: "100%",
 };

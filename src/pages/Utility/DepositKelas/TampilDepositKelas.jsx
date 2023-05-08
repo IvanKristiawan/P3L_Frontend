@@ -29,8 +29,9 @@ const TampilDepositKelas = () => {
   const [jumlahDeposit, setJumlahDeposit] = useState("");
   const [userId, setUserId] = useState("");
   const [memberId, setMemberId] = useState("");
+  const [sisaDeposit, setSisaDeposit] = useState("");
   const [deposit, setDeposit] = useState("");
-  const [jadwalInstrukturId, setJadwalInstrukturId] = useState("");
+  const [kelasId, setKelasId] = useState("");
   const [previewPdf, setPreviewPdf] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -105,10 +106,11 @@ const TampilDepositKelas = () => {
         token: user.token,
       });
       setNoDeposit(response.data.noDeposit);
+      setSisaDeposit(response.data.sisaDeposit);
       setJumlahDeposit(response.data.jumlahDeposit);
       setUserId(response.data.user.username);
       setMemberId(response.data.user.id);
-      setJadwalInstrukturId(response.data.jadwalinstruktur.namaKelas);
+      setKelasId(response.data.kelass.namaKelas);
       const findUser = await axios.post(
         `${tempUrl}/findUser/${response.data.user.id}`,
         {
@@ -197,10 +199,12 @@ const TampilDepositKelas = () => {
             <p>Jl. Centralpark No. 10 Yogyakarta</p>
             <p>Deposit Kelas</p>
             <p>No Deposit: {noDeposit}</p>
-            <p>Kelas: {jadwalInstrukturId}</p>
+            <p>Kelas: {kelasId}</p>
             <p>Deposit: {jumlahDeposit.toLocaleString()}</p>
-            <p>Sisa Deposit: {deposit.toLocaleString()}</p>
-            <p>Total Deposit: {(jumlahDeposit + deposit).toLocaleString()}</p>
+            <p>Sisa Deposit: {sisaDeposit.toLocaleString()}</p>
+            <p>
+              Total Deposit: {(jumlahDeposit + sisaDeposit).toLocaleString()}
+            </p>
             <p>Member: {userId}</p>
             <p>Kasir: {user.username}</p>
           </div>
@@ -237,11 +241,7 @@ const TampilDepositKelas = () => {
                     Kelas :
                   </Form.Label>
                   <Col sm="9">
-                    <Form.Control
-                      value={jadwalInstrukturId}
-                      disabled
-                      readOnly
-                    />
+                    <Form.Control value={kelasId} disabled readOnly />
                   </Col>
                 </Form.Group>
               </Col>

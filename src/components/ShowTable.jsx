@@ -26,6 +26,101 @@ const useStyles = makeStyles({
   },
 });
 
+export function ShowTableMember({ currentPosts, searchTerm }) {
+  let navigate = useNavigate();
+  const classes = useStyles();
+  return (
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table aria-label="simple table">
+        <TableHead className={classes.root}>
+          <TableRow>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Username
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Tipe User
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Alamat
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Telepon
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Tgl. Lahir
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold" }}
+              className={classes.tableRightBorder}
+            >
+              Deposit
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Deposit Kelas</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentPosts
+            .filter((val) => {
+              if (searchTerm === "") {
+                return val;
+              } else if (
+                val.username.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.tipeUser.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.alamat.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.telepon.toUpperCase().includes(searchTerm.toUpperCase()) ||
+                val.tanggalLahir
+                  .toUpperCase()
+                  .includes(searchTerm.toUpperCase()) ||
+                val.deposit == searchTerm ||
+                val.depositKelas == searchTerm
+              ) {
+                return val;
+              }
+            })
+            .map((user, index) => (
+              <TableRow
+                key={user.id}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  "&:hover": { bgcolor: Colors.grey300 },
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  navigate(`/daftarUser/${user.id}`);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {user.username}
+                </TableCell>
+                <TableCell>{user.tipeUser}</TableCell>
+                <TableCell>{user.alamat}</TableCell>
+                <TableCell>{user.telepon}</TableCell>
+                <TableCell>{user.tanggalLahir}</TableCell>
+                <TableCell>{user.deposit}</TableCell>
+                <TableCell>{user.depositKelas}</TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
 export function ShowTableUser({ currentPosts, searchTerm }) {
   let navigate = useNavigate();
   const classes = useStyles();

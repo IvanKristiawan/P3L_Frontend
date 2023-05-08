@@ -14,11 +14,12 @@ const TambahDepositKelas = () => {
   const [open, setOpen] = useState(false);
   const [validated, setValidated] = useState(false);
   const [noDeposit, setNoDeposit] = useState("");
+  const [sisaDeposit, setSisaDeposit] = useState("");
   const [jumlahDeposit, setJumlahDeposit] = useState("");
   const [userId, setUserId] = useState("");
-  const [jadwalInstrukturId, setJadwalInstrukturId] = useState("");
+  const [kelasId, setKelasId] = useState("");
 
-  const [jadwalInstruktur, setJadwalInstruktur] = useState([]);
+  const [kelas, setKelas] = useState([]);
   const [members, setMembers] = useState([]);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -34,17 +35,25 @@ const TambahDepositKelas = () => {
   useEffect(() => {
     getMembersData();
     getNextKodeDeposit();
-    getBookingKelasData();
+    getKelasData();
   }, []);
 
-  const getBookingKelasData = async (kodeUnit) => {
-    setJadwalInstrukturId("");
-    const response = await axios.post(`${tempUrl}/jadwalInstruktursMasihAda`, {
+  const getKelasData = async (kodeUnit) => {
+    setKelasId("");
+    const response = await axios.post(`${tempUrl}/kelas`, {
       _id: user.id,
       token: user.token,
     });
-    setJadwalInstruktur(response.data);
-    setJadwalInstrukturId(response.data[0].id);
+    setKelas(response.data);
+    setKelasId(response.data[0].id);
+  };
+
+  const getMemberData = async (id) => {
+    const response = await axios.post(`${tempUrl}/users/${id}`, {
+      _id: user.id,
+      token: user.token,
+    });
+    setSisaDeposit(response.data.depositKelas);
   };
 
   const getMembersData = async (kodeUnit) => {
@@ -75,8 +84,9 @@ const TambahDepositKelas = () => {
         setLoading(true);
         await axios.post(`${tempUrl}/saveDepositKelas`, {
           jumlahDeposit,
+          sisaDeposit,
           userId,
-          jadwalInstrukturId,
+          kelasId,
           _id: user.id,
           token: user.token,
         });
@@ -170,6 +180,7 @@ const TambahDepositKelas = () => {
                       value={userId}
                       onChange={(e) => {
                         setUserId(e.target.value);
+                        getMemberData(e.target.value);
                       }}
                     >
                       {members.map((instruktur, index) => (
@@ -190,21 +201,20 @@ const TambahDepositKelas = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
-                    Jml. Member Max :
+                    Kelas :
                   </Form.Label>
 
                   <Col sm="9">
                     <Form.Select
                       required
-                      value={jadwalInstrukturId}
+                      value={kelasId}
                       onChange={(e) => {
-                        setJadwalInstrukturId(e.target.value);
+                        setKelasId(e.target.value);
                       }}
                     >
-                      {jadwalInstruktur.map((jadwalGym, index) => (
+                      {kelas.map((jadwalGym, index) => (
                         <option value={jadwalGym.id}>
-                          {jadwalGym.namaKelas} | {jadwalGym.tanggal} |{" "}
-                          {jadwalGym.dariJam}-{jadwalGym.sampaiJam}
+                          {jadwalGym.namaKelas}
                         </option>
                       ))}
                     </Form.Select>

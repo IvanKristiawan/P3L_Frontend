@@ -66,7 +66,7 @@ const UbahUser = () => {
     setOpenAlert(false);
   };
 
-  const tipeUserOption = ["MANAGER", "ADMIN", "INSTRUKTUR", "MEMBER"];
+  const tipeUserOption = ["MANAGER", "KASIR", "ADMIN", "INSTRUKTUR", "MEMBER"];
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

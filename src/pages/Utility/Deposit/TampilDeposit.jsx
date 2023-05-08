@@ -29,6 +29,7 @@ const TampilDeposit = () => {
   const [jumlahDeposit, setJumlahDeposit] = useState("");
   const [userId, setUserId] = useState("");
   const [memberId, setMemberId] = useState("");
+  const [sisaDeposit, setSisaDeposit] = useState("");
   const [deposit, setDeposit] = useState("");
   const [previewPdf, setPreviewPdf] = useState(false);
 
@@ -104,6 +105,7 @@ const TampilDeposit = () => {
         token: user.token,
       });
       setNoDeposit(response.data.noDeposit);
+      setSisaDeposit(response.data.sisaDeposit);
       setJumlahDeposit(response.data.jumlahDeposit);
       setUserId(response.data.user.username);
       setMemberId(response.data.user.id);
@@ -196,8 +198,10 @@ const TampilDeposit = () => {
             <p>Deposit</p>
             <p>No Deposit: {noDeposit}</p>
             <p>Deposit: {jumlahDeposit.toLocaleString()}</p>
-            <p>Sisa Deposit: {deposit.toLocaleString()}</p>
-            <p>Total Deposit: {(jumlahDeposit + deposit).toLocaleString()}</p>
+            <p>Sisa Deposit: {sisaDeposit.toLocaleString()}</p>
+            <p>
+              Total Deposit: {(jumlahDeposit + sisaDeposit).toLocaleString()}
+            </p>
             <p>Member: {userId}</p>
             <p>Kasir: {user.username}</p>
           </div>
