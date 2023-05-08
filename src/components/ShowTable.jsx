@@ -206,24 +206,6 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
             >
               Tanggal
             </TableCell>
-            <TableCell
-              sx={{ fontWeight: "bold" }}
-              className={classes.tableRightBorder}
-            >
-              Jml.
-            </TableCell>
-            <TableCell
-              sx={{ fontWeight: "bold" }}
-              className={classes.tableRightBorder}
-            >
-              Jml. Max
-            </TableCell>
-            <TableCell
-              sx={{ fontWeight: "bold" }}
-              className={classes.tableRightBorder}
-            >
-              Harga
-            </TableCell>
             <TableCell sx={{ fontWeight: "bold" }}>Libur</TableCell>
           </TableRow>
         </TableHead>
@@ -241,10 +223,7 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase()) ||
                 val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
-                val.libur.toUpperCase().includes(searchTerm.toUpperCase()) ||
-                val.jumlahMember == searchTerm ||
-                val.jumlahMemberMax == searchTerm ||
-                val.harga == searchTerm
+                val.libur.toUpperCase().includes(searchTerm.toUpperCase()) 
               ) {
                 return val;
               }
@@ -267,9 +246,6 @@ export function ShowTableJadwalInstruktur({ currentPosts, searchTerm }) {
                 <TableCell>{user.dariJam}</TableCell>
                 <TableCell>{user.sampaiJam}</TableCell>
                 <TableCell>{user.tanggal}</TableCell>
-                <TableCell>{user.jumlahMember.toLocaleString()}</TableCell>
-                <TableCell>{user.jumlahMemberMax.toLocaleString()}</TableCell>
-                <TableCell>{user.harga.toLocaleString()}</TableCell>
                 <TableCell>{user.libur}</TableCell>
               </TableRow>
             ))}
@@ -463,7 +439,7 @@ export function ShowTableAktivasi({ currentPosts, searchTerm }) {
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase()) ||
                 val.jumlahAktivasi == searchTerm ||
-                val.user.username
+                val.user.id
                   .toUpperCase()
                   .includes(searchTerm.toUpperCase())
               ) {
@@ -487,7 +463,7 @@ export function ShowTableAktivasi({ currentPosts, searchTerm }) {
                 </TableCell>
                 <TableCell>{user.masaAktif}</TableCell>
                 <TableCell>{user.jumlahAktivasi.toLocaleString()}</TableCell>
-                <TableCell>{user.user.username}</TableCell>
+                <TableCell>{user.user.noMember} - {user.user.username}</TableCell>
               </TableRow>
             ))}
         </TableBody>
@@ -554,7 +530,7 @@ export function ShowTableDeposit({ currentPosts, searchTerm }) {
                   {user.noDeposit}
                 </TableCell>
                 <TableCell>{user.jumlahDeposit.toLocaleString()}</TableCell>
-                <TableCell>{user.user.username}</TableCell>
+                <TableCell>{user.user.noMember} - {user.user.username}</TableCell>
               </TableRow>
             ))}
         </TableBody>
@@ -621,7 +597,7 @@ export function ShowTableDepositKelas({ currentPosts, searchTerm }) {
                   {user.noDeposit}
                 </TableCell>
                 <TableCell>{user.jumlahDeposit.toLocaleString()}</TableCell>
-                <TableCell>{user.user.username}</TableCell>
+                <TableCell>{user.user.noMember} - {user.user.username}</TableCell>
               </TableRow>
             ))}
         </TableBody>

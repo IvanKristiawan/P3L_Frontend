@@ -15,7 +15,9 @@ const TambahDepositKelas = () => {
   const [validated, setValidated] = useState(false);
   const [noDeposit, setNoDeposit] = useState("");
   const [sisaDeposit, setSisaDeposit] = useState("");
+  const [jumlah, setJumlah] = useState("");
   const [jumlahDeposit, setJumlahDeposit] = useState("");
+  const [harga, setHarga] = useState("");
   const [userId, setUserId] = useState("");
   const [kelasId, setKelasId] = useState("");
 
@@ -38,6 +40,14 @@ const TambahDepositKelas = () => {
     getKelasData();
   }, []);
 
+  const getKelasIdData = async (id) => {
+    const response = await axios.post(`${tempUrl}/kelas/${id}`, {
+      _id: user.id,
+      token: user.token,
+    });
+    setHarga(response.data.harga);
+  };
+
   const getKelasData = async (kodeUnit) => {
     setKelasId("");
     const response = await axios.post(`${tempUrl}/kelas`, {
@@ -46,6 +56,7 @@ const TambahDepositKelas = () => {
     });
     setKelas(response.data);
     setKelasId(response.data[0].id);
+    setHarga(response.data[0].harga);
   };
 
   const getMemberData = async (id) => {
@@ -150,6 +161,48 @@ const TambahDepositKelas = () => {
                   controlId="formPlaintextPassword"
                 >
                   <Form.Label column sm="3" style={textRight}>
+                    Jumlah :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      value={jumlah}
+                      onChange={(e) => {
+                        setJumlah(e.target.value);
+                        setJumlahDeposit(parseInt(harga) * parseInt(e.target.value));
+                      }}
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
+                    Harga :
+                  </Form.Label>
+                  <Col sm="9">
+                    <Form.Control
+                      required
+                      value={harga}
+                    />
+                  </Col>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={6}>
+                <Form.Group
+                  as={Row}
+                  className="mb-3"
+                  controlId="formPlaintextPassword"
+                >
+                  <Form.Label column sm="3" style={textRight}>
                     Jumlah Deposit :
                   </Form.Label>
                   <Col sm="9">
@@ -185,7 +238,7 @@ const TambahDepositKelas = () => {
                     >
                       {members.map((instruktur, index) => (
                         <option value={instruktur.id}>
-                          {instruktur.username}
+                          {instruktur.noMember} - {instruktur.username}
                         </option>
                       ))}
                     </Form.Select>
@@ -209,6 +262,7 @@ const TambahDepositKelas = () => {
                       required
                       value={kelasId}
                       onChange={(e) => {
+                        getKelasIdData(e.target.value);
                         setKelasId(e.target.value);
                       }}
                     >

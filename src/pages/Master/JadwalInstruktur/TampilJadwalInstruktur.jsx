@@ -59,10 +59,7 @@ const TampilJadwalInstruktur = () => {
       val.dariJam.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.sampaiJam.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.tanggal.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.libur.toUpperCase().includes(searchTerm.toUpperCase()) ||
-      val.jumlahMember == searchTerm ||
-      val.jumlahMemberMax == searchTerm ||
-      val.harga == searchTerm
+      val.libur.toUpperCase().includes(searchTerm.toUpperCase())
     ) {
       return val;
     }

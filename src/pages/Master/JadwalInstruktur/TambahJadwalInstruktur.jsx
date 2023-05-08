@@ -153,7 +153,7 @@ const TambahJadwalInstruktur = () => {
                   <Col sm="9">
                     <Form.Select
                       required
-                      value={userId}
+                      value={kelasId}
                       onChange={(e) => {
                         setKelasId(e.target.value);
                       }}

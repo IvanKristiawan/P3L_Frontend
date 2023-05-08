@@ -171,7 +171,7 @@ const TambahDeposit = () => {
                     >
                       {members.map((instruktur, index) => (
                         <option value={instruktur.id}>
-                          {instruktur.username}
+                          {instruktur.noMember} - {instruktur.username}
                         </option>
                       ))}
                     </Form.Select>

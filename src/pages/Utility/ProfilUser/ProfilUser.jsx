@@ -234,6 +234,22 @@ const ProfilUser = () => {
                     controlId="formPlaintextPassword"
                   >
                     <Form.Label column sm="3" style={textRight}>
+                      Deposit Kelas :
+                    </Form.Label>
+                    <Col sm="9">
+                      <Form.Control value={user.depositKelas} disabled readOnly />
+                    </Col>
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col sm={6}>
+                  <Form.Group
+                    as={Row}
+                    className="mb-3"
+                    controlId="formPlaintextPassword"
+                  >
+                    <Form.Label column sm="3" style={textRight}>
                       Masa Berlaku :
                     </Form.Label>
                     <Col sm="9">

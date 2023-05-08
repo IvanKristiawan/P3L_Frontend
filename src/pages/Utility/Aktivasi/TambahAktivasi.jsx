@@ -17,7 +17,7 @@ const TambahAktivasi = () => {
   const [validated, setValidated] = useState(false);
   const [kodeAktivasi, setKodeAktivasi] = useState("");
   const [masaAktif, setMasaAktif] = useState(new Date());
-  const [jumlahAktivasi, setJumlahAktivasi] = useState("");
+  const [jumlahAktivasi, setJumlahAktivasi] = useState(3000000);
   const [userId, setUserId] = useState("");
 
   const [members, setMembers] = useState([]);
@@ -187,7 +187,7 @@ const TambahAktivasi = () => {
                     >
                       {members.map((instruktur, index) => (
                         <option value={instruktur.id}>
-                          {instruktur.username}
+                          {instruktur.noMember} - {instruktur.username}
                         </option>
                       ))}
                     </Form.Select>

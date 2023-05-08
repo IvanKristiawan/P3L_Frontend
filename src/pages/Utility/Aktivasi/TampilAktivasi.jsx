@@ -29,6 +29,7 @@ const TampilAktivasi = () => {
   const [masaAktif, setMasaAktif] = useState("");
   const [jumlahAktivasi, setJumlahAktivasi] = useState("");
   const [userId, setUserId] = useState("");
+  const [usernama, setUsernama] = useState("");
   const [previewPdf, setPreviewPdf] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +50,7 @@ const TampilAktivasi = () => {
       val.kodeAktivasi.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.masaAktif.toUpperCase().includes(searchTerm.toUpperCase()) ||
       val.jumlahAktivasi == searchTerm ||
-      val.user.username.toUpperCase().includes(searchTerm.toUpperCase())
+      val.user.noMember.toUpperCase().includes(searchTerm.toUpperCase())
     ) {
       return val;
     }
@@ -113,7 +114,8 @@ const TampilAktivasi = () => {
         useGrouping: false,
       })}-${newTanggal.getFullYear()}`;
       setMasaAktif(tempTanggal);
-      setUserId(response.data.user.username);
+      setUserId(`${response.data.user.noMember}`);
+      setUsernama(`${response.data.user.username}`);
       setJumlahAktivasi(response.data.jumlahAktivasi);
     }
   };
@@ -197,7 +199,8 @@ const TampilAktivasi = () => {
             <p>No Aktivasi: {kodeAktivasi}</p>
             <p>Masa Aktif: {masaAktif}</p>
             <p>Jml. Rp: {jumlahAktivasi.toLocaleString()}</p>
-            <p>Member: {userId}</p>
+            <p>Member Id: {userId}</p>
+            <p>Member: {usernama}</p>
             <p>Kasir: {user.username}</p>
           </div>
         </>

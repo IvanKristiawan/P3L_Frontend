@@ -108,7 +108,7 @@ const TampilDepositKelas = () => {
       setNoDeposit(response.data.noDeposit);
       setSisaDeposit(response.data.sisaDeposit);
       setJumlahDeposit(response.data.jumlahDeposit);
-      setUserId(response.data.user.username);
+      setUserId(`${response.data.user.noMember} - ${response.data.user.username}`);
       setMemberId(response.data.user.id);
       setKelasId(response.data.kelass.namaKelas);
       const findUser = await axios.post(
